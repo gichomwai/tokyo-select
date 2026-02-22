@@ -1,0 +1,2723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokyo Select — Premium Import Vehicles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════
+   TOKENS
+═══════════════════════════════════ */
+:root {
+  --bg:         #FFFFFF;
+  --surface:    #F6F6F4;
+  --surface-2:  #EDEDE9;
+  --border:     #E8E8E4;
+  --border-2:   #D8D8D2;
+  --text-1:     #111110;
+  --text-2:     #58584E;
+  --text-3:     #9B9B90;
+  --accent:     #111110;
+  --accent-h:   #2A2A28;
+  --gold:       #C8A96E;
+  --gold-dim:   rgba(200,169,110,0.15);
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.07);
+  --card-shadow-hover: 0 2px 6px rgba(0,0,0,0.08), 0 12px 32px rgba(0,0,0,0.12);
+  --r-sm:  4px;
+  --r-md:  8px;
+  --r-lg:  13px;
+  --r-xl:  17px;
+  --r-2xl: 22px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════
+   RESET / BASE
+═══════════════════════════════════ */
+*, *::before, *::after {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; }
+
+/* ═══════════════════════════════════
+   DEMO TABS
+═══════════════════════════════════ */
+.demo-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.demo-tabs::-webkit-scrollbar { display: none; }
+.demo-tab {
+  flex-shrink: 0;
+  padding: 10px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  cursor: pointer;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.demo-tab.active { color: var(--text-1); border-bottom-color: var(--text-1); }
+
+/* ═══════════════════════════════════
+   PAGES
+═══════════════════════════════════ */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.22s var(--ease-out); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ═══════════════════════════════════
+   NAV
+═══════════════════════════════════ */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 54px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 33px; /* below demo tabs */
+  z-index: 100;
+}
+.nav.transparent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  background: transparent;
+  border-bottom: none;
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-1);
+  text-decoration: none;
+  line-height: 1;
+}
+.nav.transparent .nav-logo { color: #FFFFFF; }
+.nav-logo .logo-mark {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.nav-logo .logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+.nav-logo .logo-text b { font-weight: 800; letter-spacing: 2px; }
+.nav-logo .logo-text span { font-weight: 300; letter-spacing: 2px; }
+.nav-actions { display: flex; align-items: center; gap: 2px; }
+.nav-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+  border-radius: 6px;
+  transition: color 0.2s, background 0.15s;
+}
+.nav-icon-btn:hover { color: var(--text-1); background: var(--surface); }
+.nav.transparent .nav-icon-btn { color: rgba(255,255,255,0.85); }
+.nav.transparent .nav-icon-btn:hover { color: #fff; background: rgba(255,255,255,0.1); }
+
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+.hero-wrap { position: relative; }
+.hero {
+  height: calc(100dvh - 381px); /* stats divider + 24px breathing room below it */
+  min-height: 420px;            /* floor for very short screens */
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 50%;
+  opacity: 0.72;
+  transition: opacity 0.4s;
+}
+.hero-img.loaded { opacity: 0.72; }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0.22) 0%,
+    rgba(0,0,0,0.08) 35%,
+    rgba(0,0,0,0.54) 75%,
+    rgba(0,0,0,0.8) 100%
+  );
+}
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(calc(-50% + 14px)); /* shifted down toward search bar for visual balance */
+  padding: 0 24px;
+}
+.hero-eyebrow {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 10px;
+}
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 51px;
+  line-height: 1.05;
+  letter-spacing: -0.8px;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+}
+.hero-title em { font-style: italic; }
+.hero-subtitle {
+  font-size: 14px;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.6;
+  max-width: 270px;
+}
+
+/* ═══════════════════════════════════
+   SEARCH PANEL
+═══════════════════════════════════ */
+.search-float {
+  position: relative;
+  z-index: 10;
+  margin: -62px 16px 0; /* tab divider aligns with hero bottom border */
+}
+.search-card {
+  background: rgba(255,255,255,0.36);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.08);
+}
+.search-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding: 16px 14px 0;
+  gap: 4px;
+}
+.search-tab {
+  padding: 10px 14px 13px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.1px;
+  border-radius: 4px 4px 0 0;
+}
+.search-tab.active {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+  font-weight: 600;
+}
+.search-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: transparent;
+  padding: 20px 12px 0;
+}
+.search-field-wrap {
+  display: flex;
+  flex-direction: column;
+}
+.search-field {
+  background: #F8F7F5;
+  padding: 11px 13px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.search-field:focus-within {
+  background: #EEECEA;
+}
+.sf-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: #111110;
+  margin-bottom: 4px;
+}
+.sf-select, .sf-input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #58584E;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  -webkit-appearance: none;
+}
+.sf-select option { background: #fff; color: #111110; }
+.search-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 28px);
+  margin: 18px 14px 18px;
+  padding: 14px 20px;
+  background: #111110;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+.search-btn:active { box-shadow: none; transform: scale(0.995); }
+
+/* ═══════════════════════════════════
+   STATS STRIP
+═══════════════════════════════════ */
+.stats-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 22px 20px 36px;
+  border-bottom: 1px solid var(--border);
+  margin-top: 20px;
+}
+.stat-item { text-align: center; }
+.stat-val {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  letter-spacing: -0.4px;
+  color: var(--text-1);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.stat-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border-2);
+}
+
+/* ═══════════════════════════════════
+   SECTIONS
+═══════════════════════════════════ */
+.section { padding: 36px 20px; border-bottom: 1px solid var(--border); }
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+  overflow: hidden;
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.section-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: color 0.2s;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+.section-link:hover { color: var(--text-1); }
+
+/* ═══════════════════════════════════
+   CATEGORY CARDS
+═══════════════════════════════════ */
+.cats-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 4px;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+.cats-scroll::-webkit-scrollbar { display: none; }
+.cat-card {
+  flex-shrink: 0;
+  width: 156px;      /* 2.5 cards visible: (430 - 16px padding) / 2.5 - gaps */
+  height: 148px;
+  border-radius: var(--r-lg);
+  scroll-snap-align: start;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background: var(--surface-2);
+}
+.cat-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.6) 100%);
+  transition: opacity 0.2s;
+}
+.cat-card:active::after { opacity: 1.3; }
+.cat-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s var(--ease-out);
+}
+.cat-card:hover img { transform: scale(1.05); }
+.cat-card-text {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 10px 12px;
+  z-index: 1;
+}
+.cat-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.2;
+  letter-spacing: 0.1px;
+}
+.cat-card-count {
+  font-size: 10px;
+  color: rgba(255,255,255,0.68);
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+/* ═══════════════════════════════════
+   FEATURED CAR CARDS
+═══════════════════════════════════ */
+.cars-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.cars-scroll::-webkit-scrollbar { display: none; }
+.car-card {
+  flex-shrink: 0;
+  width: 236px;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s var(--ease-out), transform 0.18s;
+  box-shadow: var(--card-shadow);
+}
+.car-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+.car-card:active { transform: scale(0.98) translateY(0); }
+.car-card-img {
+  height: 148px;
+  background: var(--surface-2);
+  position: relative;
+  overflow: hidden;
+}
+.car-card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease-out);
+}
+.car-card:hover .car-card-img img { transform: scale(1.04); }
+.car-card-save {
+  position: absolute;
+  top: 10px; right: 10px;
+  z-index: 2;
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.5);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.car-card-save:hover { background: #fff; transform: scale(1.1); }
+.car-card-save svg { transition: fill 0.2s; }
+.car-card-save:hover svg { fill: #e0245e; stroke: #e0245e; }
+.car-card-body { padding: 14px 14px 16px; }
+.car-make {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.car-model {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--text-1);
+  margin: 2px 0 11px;
+  letter-spacing: -0.2px;
+}
+.car-specs { display: flex; gap: 14px; }
+.cs { display: flex; flex-direction: column; gap: 2px; }
+.cs-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+.cs-val { font-size: 12px; font-weight: 600; color: var(--text-2); }
+.car-price-row {
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.price-from { font-size: 10px; color: var(--text-3); margin-bottom: 2px; }
+.price-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  letter-spacing: -0.2px;
+}
+.price-ccy {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: var(--text-3);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ═══════════════════════════════════
+   DARK BAND — "WE MAKE IMPORTING SIMPLE"
+═══════════════════════════════════ */
+.dark-band {
+  background: var(--text-1);
+  padding: 44px 24px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.dark-band-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 14px;
+}
+.dark-band-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.6px;
+  color: #FFFFFF;
+  margin-bottom: 32px;
+}
+.dark-band-title em { font-style: italic; color: rgba(255,255,255,0.7); }
+.steps { display: flex; flex-direction: column; gap: 20px; }
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.step-num {
+  width: 30px; height: 30px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-title { font-size: 15px; font-weight: 600; color: #FFFFFF; margin-bottom: 3px; }
+.step-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ═══════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════ */
+.tests-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.tests-scroll::-webkit-scrollbar { display: none; }
+.test-card {
+  flex-shrink: 0;
+  width: 278px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+.test-stars { color: #E8A027; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; }
+.test-quote {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.test-author { display: flex; align-items: center; gap: 10px; }
+.test-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--text-1);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.test-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
+.test-meta { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+/* ═══════════════════════════════════
+   ENQUIRY MODAL
+═══════════════════════════════════ */
+.enq-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.enq-overlay.open { opacity: 1; pointer-events: all; }
+.enq-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-height: 92vh;
+  background: #FFFFFF;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  z-index: 301;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s var(--ease-out);
+}
+.enq-panel.open { transform: translateY(0); }
+.enq-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.enq-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+  color: var(--text-1);
+}
+.enq-close {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-2);
+  flex-shrink: 0;
+}
+.enq-body {
+  overflow-y: auto;
+  padding: 20px 20px 0;
+  flex: 1;
+}
+.enq-footer {
+  padding: 14px 20px 32px;
+  flex-shrink: 0;
+}
+.enq-send {
+  width: 100%;
+  background: var(--accent);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--r-md);
+  padding: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.1px;
+}
+.enq-send:active { opacity: 0.8; }
+
+/* ═══════════════════════════════════
+   BLOG CARDS
+═══════════════════════════════════ */
+.blog-card {
+  display: flex;
+  flex-direction: row;
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.2s var(--ease-out), opacity 0.15s;
+  margin-bottom: 14px;
+  min-height: 110px;
+}
+.blog-card:last-child { margin-bottom: 0; }
+.blog-card:active { opacity: 0.72; }
+.blog-body {
+  flex: 1;
+  min-width: 0;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.blog-thumb {
+  width: 130px;
+  flex-shrink: 0;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-tag { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 6px; }
+.blog-title { font-size: 14px; font-weight: 600; color: var(--text-1); line-height: 1.4; margin-bottom: 7px; }
+.blog-date { font-size: 11px; color: var(--text-3); }
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+.footer {
+  background: #141414;
+  padding: 48px 24px 0;
+  color: #ffffff;
+}
+.footer-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  color: #ffffff;
+  margin-bottom: 44px;
+}
+.footer-logo-wrap .logo-mark { width: 15px; height: 15px; flex-shrink: 0; }
+.footer-logo-wrap .logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: baseline;
+}
+.footer-logo-wrap .logo-text b { font-weight: 800; }
+.footer-logo-wrap .logo-text span { font-weight: 300; }
+.footer-section { margin-bottom: 36px; }
+.footer-section-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 16px;
+}
+.footer-section-links { display: flex; flex-direction: column; gap: 13px; }
+.footer-link {
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+.footer-link:hover { color: rgba(255,255,255,0.65); }
+.footer-social-row { display: flex; gap: 20px; align-items: center; }
+.footer-social-icon {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+.footer-social-icon:hover { opacity: 0.6; }
+.footer-lower {
+  background: transparent;
+  padding: 24px 0 36px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 8px;
+}
+.footer-copy-text {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.footer-legal-row {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  line-height: 2;
+  margin-bottom: 18px;
+}
+.footer-legal-row a { color: rgba(255,255,255,0.45); text-decoration: none; cursor: pointer; }
+.footer-legal-row a:hover { color: rgba(255,255,255,0.75); }
+.footer-disclaimer {
+  font-size: 10px;
+  color: rgba(255,255,255,0.28);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════
+   LISTING PAGE
+═══════════════════════════════════ */
+.listing-header { padding: 24px 20px 0; }
+.listing-title { font-family: 'DM Serif Display', serif; font-size: 30px; margin-bottom: 4px; letter-spacing: -0.4px; }
+.listing-meta { font-size: 13px; color: var(--text-3); margin-bottom: 18px; font-weight: 500; }
+.filter-bar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 20px; }
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-pill {
+  flex-shrink: 0;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.filter-pill.active { background: var(--text-1); border-color: var(--text-1); color: #FFFFFF; }
+.filter-pill-filters {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--text-1);
+  border: 1.5px solid var(--text-1);
+  border-radius: var(--r-md);
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.filter-divider {
+  flex-shrink: 0;
+  width: 1px;
+  background: var(--border-2);
+  align-self: stretch;
+  margin: 3px 4px;
+}
+.listing-grid { padding: 0 20px 24px; display: flex; flex-direction: column; gap: 16px; }
+
+/* ─── Filter Modal ─── */
+.filter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.filter-overlay.open { opacity: 1; pointer-events: all; }
+.filter-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-height: 90vh;
+  background: #FFFFFF;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s var(--ease-out);
+}
+.filter-panel.open { transform: translateY(0); }
+.filter-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.filter-panel-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+  color: var(--text-1);
+}
+.filter-panel-close {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-2);
+  flex-shrink: 0;
+}
+.filter-panel-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 22px 20px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.fp-section { margin-bottom: 26px; }
+.fp-section-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.fp-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.fp-select-wrap {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+}
+.fp-select-wrap select {
+  background: none; border: none; outline: none;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-1);
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.fp-select-wrap select option { background: #fff; }
+.fp-input-wrap {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 8px;
+  transition: border-color 0.18s;
+}
+.fp-input-wrap:focus-within { border-color: var(--text-1); }
+.fp-input {
+  background: none; border: none; outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: var(--text-1); width: 100%;
+}
+.fp-input::placeholder { color: var(--text-3); }
+/* Range From / To */
+.fp-range-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fp-range-field { display: flex; flex-direction: column; gap: 5px; }
+.fp-range-sublabel {
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 0.7px; text-transform: uppercase;
+  color: var(--text-3);
+}
+.fp-range-input {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; color: var(--text-1);
+  width: 100%; outline: none;
+  transition: border-color 0.18s;
+  -moz-appearance: textfield;
+}
+.fp-range-input:focus { border-color: var(--text-1); }
+.fp-range-input::placeholder { color: var(--text-3); }
+.fp-range-input::-webkit-outer-spin-button,
+.fp-range-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+/* Checklist */
+.fp-checklist {
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.fp-check-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.14s;
+  user-select: none;
+}
+.fp-check-item:last-child { border-bottom: none; }
+.fp-check-item:active { background: var(--surface); }
+.fp-check-box {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--border-2);
+  border-radius: var(--r-sm);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: #FFFFFF;
+  transition: all 0.15s;
+}
+.fp-check-box svg { opacity: 0; transition: opacity 0.15s; }
+.fp-check-item.checked .fp-check-box { background: var(--text-1); border-color: var(--text-1); }
+.fp-check-item.checked .fp-check-box svg { opacity: 1; }
+.fp-check-label { font-size: 13px; font-weight: 500; color: var(--text-1); flex: 1; }
+/* Stock type toggle inside filter panel */
+.fp-stock-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 3px;
+  gap: 3px;
+}
+.fp-stock-opt {
+  flex: 1;
+  text-align: center;
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-3);
+  border-radius: calc(var(--r-md) - 2px);
+  cursor: pointer;
+  transition: all 0.18s;
+  letter-spacing: 0.1px;
+  user-select: none;
+}
+.fp-stock-opt.active { background: var(--text-1); color: #FFFFFF; }
+.filter-panel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  background: #FFFFFF;
+}
+.fp-clear {
+  font-size: 13px; font-weight: 600;
+  color: var(--text-2);
+  text-decoration: underline;
+  cursor: pointer;
+  letter-spacing: 0.1px;
+  user-select: none;
+}
+.fp-show {
+  background: var(--text-1);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--r-md);
+  padding: 11px 24px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.1px;
+  transition: opacity 0.18s;
+}
+.fp-show:active { opacity: 0.8; }
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px 48px;
+}
+.pg-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 10px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.16s;
+  letter-spacing: 0.1px;
+  user-select: none;
+}
+.pg-btn:hover { border-color: var(--border-2); color: var(--text-1); }
+.pg-btn.active { background: var(--text-1); border-color: var(--text-1); color: #FFFFFF; }
+.pg-btn:disabled, .pg-btn.disabled { opacity: 0.35; pointer-events: none; }
+.pg-ellipsis {
+  font-size: 13px;
+  color: var(--text-3);
+  padding: 0 2px;
+  line-height: 38px;
+}
+.listing-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.22s var(--ease-out), transform 0.18s;
+  box-shadow: var(--card-shadow);
+}
+.listing-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+.listing-card:active { transform: scale(0.99) translateY(0); }
+.lc-img {
+  height: 200px;
+  background: var(--surface-2);
+  position: relative;
+  overflow: hidden;
+}
+.lc-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--ease-out);
+}
+.listing-card:hover .lc-img img { transform: scale(1.04); }
+.lc-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--text-1);
+  color: #FFFFFF;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: var(--r-sm);
+}
+.lc-badge.gold { background: var(--gold); color: var(--text-1); }
+.lc-save {
+  position: absolute; top: 14px; right: 14px;
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.5);
+  font-size: 14px; cursor: pointer;
+  color: var(--text-2);
+  transition: all 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.lc-save:hover { color: #e0245e; transform: scale(1.1); }
+.lc-body { padding: 18px; }
+.lc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.lc-make { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 2px; }
+.lc-model { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.1; letter-spacing: -0.3px; }
+.lc-specs {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.lc-spec { flex: 1; padding: 10px 0; text-align: center; border-right: 1px solid var(--border); }
+.lc-spec:last-child { border-right: none; }
+.lc-spec-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
+.lc-spec-val { font-size: 13px; font-weight: 700; color: var(--text-1); margin-top: 3px; }
+.lc-foot { display: flex; align-items: center; justify-content: space-between; }
+.lc-price-label { font-size: 10px; color: var(--text-3); margin-bottom: 2px; font-weight: 500; }
+.lc-price { font-family: 'DM Serif Display', serif; font-size: 22px; letter-spacing: -0.3px; }
+.lc-cta {
+  background: var(--text-1);
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 11px 18px;
+  font-size: 12px; font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.lc-cta:active { background: var(--accent-h); }
+
+/* ═══════════════════════════════════
+   DETAIL PAGE
+═══════════════════════════════════ */
+.detail-gallery {
+  height: 300px;
+  background: var(--surface-2);
+  position: relative;
+  overflow: hidden;
+}
+.detail-gallery img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  opacity: 1;
+}
+.dg-btn {
+  position: absolute;
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+  font-size: 14px;
+  z-index: 2;
+}
+.dg-btn:hover { background: #fff; transform: scale(1.06); }
+.dg-back { top: 16px; left: 16px; }
+.dg-save { top: 16px; right: 16px; }
+.gallery-dots {
+  position: absolute;
+  bottom: 14px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 5px;
+}
+.gdot {
+  width: 5px; height: 5px;
+  background: rgba(255,255,255,0.45);
+  border-radius: 50%;
+  transition: all 0.25s;
+}
+.gdot.active {
+  width: 18px;
+  border-radius: 2px;
+  background: #FFFFFF;
+}
+.gallery-thumbs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+.gallery-thumbs::-webkit-scrollbar { display: none; }
+.gthumb {
+  width: 60px; height: 46px;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.gthumb img { width: 100%; height: 100%; object-fit: cover; }
+.gthumb.active { border-color: var(--text-1); }
+.detail-body { padding: 22px 20px 0; background: #fff; }
+.detail-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.detail-make { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; }
+.detail-model { font-family: 'DM Serif Display', serif; font-size: 30px; line-height: 1.05; letter-spacing: -0.6px; margin-bottom: 20px; }
+.detail-year {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 5px 13px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-1);
+  flex-shrink: 0;
+}
+.detail-specs {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.dspec {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 8px;
+  text-align: center;
+}
+.dspec-icon { display: flex; align-items: center; justify-content: center; height: 22px; margin-bottom: 6px; color: var(--text-2); }
+.dspec-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; margin-bottom: 3px; }
+.dspec-val { font-size: 13px; font-weight: 700; color: var(--text-1); }
+.divider { height: 1px; background: var(--border); margin: 22px 0; }
+.detail-section-label { font-size: 10px; color: var(--text-1); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 10px; }
+.detail-desc { font-size: 14px; color: var(--text-2); line-height: 1.78; }
+.detail-features { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.detail-feat {
+  display: flex; align-items: center; gap: 11px;
+  font-size: 13px; color: var(--text-2);
+}
+.detail-feat::before {
+  content: '';
+  width: 4px; height: 4px;
+  background: var(--text-1);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════
+   STICKY BAR
+═══════════════════════════════════ */
+.sticky-bar {
+  position: sticky;
+  bottom: 0; z-index: 50;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding: 14px 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sb-price-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.sb-price { font-family: 'DM Serif Display', serif; font-size: 24px; letter-spacing: -0.4px; }
+.sb-note { font-size: 10px; color: var(--text-3); margin-top: 1px; }
+.sb-cta {
+  flex: 1;
+  padding: 15px 18px;
+  background: var(--text-1);
+  border: none; border-radius: var(--r-md);
+  color: #FFFFFF;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; letter-spacing: 0.2px;
+  transition: background 0.2s, transform 0.1s;
+  text-align: center;
+}
+.sb-cta:active { background: var(--accent-h); transform: scale(0.99); }
+
+/* ═══════════════════════════════════
+   CONTACT PAGE
+═══════════════════════════════════ */
+.contact-page { padding: 32px 20px 120px; }
+.contact-eyebrow { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.8px; font-weight: 700; margin-bottom: 12px; }
+.contact-title { font-family: 'DM Serif Display', serif; font-size: 34px; line-height: 1.08; letter-spacing: -0.6px; margin-bottom: 10px; }
+.contact-title em { font-style: italic; }
+.contact-sub { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 32px; max-width: 300px; }
+.form-group { margin-bottom: 14px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.form-label { display: block; font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 7px; }
+.form-input {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 15px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px; color: var(--text-1);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input:focus { border-color: var(--text-1); box-shadow: 0 0 0 3px rgba(0,0,0,0.06); }
+.form-input::placeholder { color: var(--text-3); }
+textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
+.contact-info { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+.contact-info-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 14px; }
+.cinfo-item { display: flex; align-items: center; gap: 11px; font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
+.cinfo-icon { flex-shrink: 0; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; color: var(--text-3); }
+
+/* ═══════════════════════════════════
+   MENU OVERLAY (full-screen centered)
+═══════════════════════════════════ */
+.menu-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(255,255,255,0.99);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.28s var(--ease-out);
+}
+.menu-overlay.open { opacity: 1; pointer-events: all; }
+.menu-close {
+  position: absolute; top: 20px; right: 20px;
+  width: 40px; height: 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-2);
+  transition: background 0.2s;
+}
+.menu-close:hover { background: var(--surface-2); color: var(--text-1); }
+.menu-nav {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  width: 100%; padding: 0 40px;
+}
+.menu-item {
+  font-family: 'DM Serif Display', serif;
+  font-size: 30px;
+  text-align: center;
+  color: var(--text-1);
+  cursor: pointer;
+  padding: 14px 24px;
+  letter-spacing: -0.3px;
+  border-radius: var(--r-md);
+  transition: color 0.2s, background 0.15s;
+  width: 100%;
+}
+.menu-item:hover { color: var(--text-2); }
+.menu-item.active { color: var(--text-1); }
+.menu-divider { width: 40px; height: 1px; background: var(--border); margin: 10px 0; }
+.menu-contact {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.2px;
+}
+
+/* ═══════════════════════════════════
+   LISTING SEARCH BAR
+═══════════════════════════════════ */
+.listing-search { padding: 20px 20px 0; }
+.ls-inner {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ls-inner:focus-within {
+  border-color: var(--text-1);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+}
+.ls-inner svg { flex-shrink: 0; color: var(--text-3); }
+.ls-input {
+  background: none; border: none; outline: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px; color: var(--text-1); width: 100%;
+}
+.ls-input::placeholder { color: var(--text-3); }
+
+/* ═══════════════════════════════════
+   UTILS
+═══════════════════════════════════ */
+.spacer { height: 100px; }
+
+/* ═══════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════ */
+
+/* ── Small mobile: 320px–375px ── */
+@media (max-width: 375px) {
+  .hero-content { padding: 0 18px; }
+  .hero-title { font-size: 36px; }
+  .hero-subtitle { font-size: 13px; max-width: 220px; }
+  .search-float { margin: -52px 12px 0; }
+  .stats-strip { padding: 18px 14px 28px; }
+  .stat-val { font-size: 18px; }
+  .stat-label { font-size: 10px; }
+  .section { padding: 28px 16px; }
+  .cats-scroll { margin-left: -16px; margin-right: -16px; }
+  .cat-card { width: 132px; height: 128px; }
+  .car-card { width: 200px; }
+  .test-card { width: 240px; }
+  .dark-band { padding: 36px 18px 40px; }
+  .dark-band-title { font-size: 26px; }
+  .listing-header { padding: 20px 16px 0; }
+  .listing-title { font-size: 24px; }
+  .listing-search { padding: 16px 16px 0; }
+  .listing-grid { padding: 0 16px 20px; }
+  .lc-model { font-size: 19px; }
+  .lc-price { font-size: 19px; }
+  .detail-body { padding: 18px 16px 0; }
+  .detail-model { font-size: 24px; }
+  .detail-specs { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .contact-page { padding: 24px 16px 100px; }
+  .contact-title { font-size: 28px; }
+  .menu-item { font-size: 24px; padding: 11px 18px; }
+  .sb-price { font-size: 20px; }
+  .footer { padding: 40px 16px 0; }
+}
+
+/* ── Large mobile: 431px–767px ── */
+@media (min-width: 431px) and (max-width: 767px) {
+  body { max-width: 560px; }
+  .hero-content { padding: 0 32px; }
+  .hero-title { font-size: 56px; }
+  .hero-subtitle { font-size: 15px; max-width: 310px; }
+  .search-float { margin: -64px 20px 0; }
+  .stats-strip { padding: 24px 24px 38px; }
+  .stat-val { font-size: 24px; }
+  .section { padding: 40px 24px; }
+  .cats-scroll { margin-left: -24px; margin-right: -24px; }
+  .cat-card { width: 172px; height: 158px; }
+  .car-card { width: 262px; }
+  .car-card-img { height: 158px; }
+  .test-card { width: 300px; }
+  .dark-band { padding: 48px 28px 54px; }
+  .dark-band-title { font-size: 36px; }
+  .listing-header { padding: 28px 24px 0; }
+  .listing-title { font-size: 32px; }
+  .listing-search { padding: 20px 24px 0; }
+  .listing-grid { padding: 0 24px 28px; }
+  .detail-model { font-size: 32px; }
+  .contact-page { padding: 36px 24px 120px; }
+  .contact-title { font-size: 38px; }
+  .footer { padding: 52px 28px 0; }
+}
+
+/* ── iPad Pro 11": 768px–834px ── */
+@media (min-width: 768px) {
+  body { max-width: 834px; font-size: 16px; }
+  .demo-tab { padding: 11px 20px; font-size: 12px; }
+  .nav { padding: 0 32px; height: 60px; }
+  .nav-logo .logo-text { font-size: 17px; }
+  .hero { min-height: 520px; }
+  .hero-content { padding: 0 44px; }
+  .hero-title { font-size: 66px; letter-spacing: -1px; }
+  .hero-subtitle { font-size: 16px; max-width: 400px; }
+  .search-float { margin: -74px 32px 0; }
+  .search-fields { padding: 24px 16px 0; gap: 14px; }
+  .stats-strip { padding: 28px 40px 44px; }
+  .stat-val { font-size: 26px; }
+  .stat-label { font-size: 12px; }
+  .section { padding: 48px 32px; }
+  .cats-scroll { margin-left: -32px; margin-right: -32px; }
+  .section-title { font-size: 25px; }
+  .cat-card { width: 200px; height: 178px; }
+  .car-card { width: 300px; }
+  .car-card-img { height: 172px; }
+  .test-card { width: 330px; }
+  .dark-band { padding: 56px 44px 64px; }
+  .dark-band-title { font-size: 44px; }
+  .listing-header { padding: 32px 32px 0; }
+  .listing-title { font-size: 36px; }
+  .listing-search { padding: 24px 32px 0; }
+  .listing-grid { padding: 0 32px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .lc-img { height: 220px; }
+  .lc-model { font-size: 22px; }
+  .lc-price { font-size: 22px; }
+  .detail-gallery { height: 390px; }
+  .detail-body { padding: 28px 32px 0; }
+  .detail-model { font-size: 36px; }
+  .contact-page { padding: 44px 40px 140px; }
+  .contact-title { font-size: 44px; }
+  .contact-sub { max-width: 420px; }
+  .footer { padding: 64px 44px 0; }
+  .menu-item { font-size: 34px; }
+  .filter-panel { left: 0; right: 0; border-radius: var(--r-2xl) var(--r-2xl) 0 0; }
+  .enq-panel { left: 0; right: 0; border-radius: var(--r-2xl) var(--r-2xl) 0 0; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══ DEMO TABS ═══ -->
+<div class="demo-tabs">
+  <div class="demo-tab active" onclick="showPage('home',this)">Home</div>
+  <div class="demo-tab" onclick="showPage('listing',this)">Listings</div>
+  <div class="demo-tab" onclick="showPage('detail',this)">Car Detail</div>
+  <div class="demo-tab" onclick="showPage('contact',this)">Contact</div>
+  <div class="demo-tab" onclick="openMenu()">Nav Menu</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+                  HOME PAGE
+══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero Wrap (nav sits absolutely inside) -->
+  <div class="hero-wrap">
+
+    <!-- Transparent Nav over hero -->
+    <nav class="nav transparent">
+      <a class="nav-logo" href="#"><svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg><span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span></a>
+      <div class="nav-actions">
+        <button class="nav-icon-btn" onclick="openMenu()" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <img
+        class="hero-img"
+        src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=85"
+        alt="Luxury car"
+        onload="this.classList.add('loaded')"
+        onerror="this.style.opacity=0"
+      >
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Kenya's Trusted Source For</div>
+        <h1 class="hero-title">Premium<br><em>Used Cars</em></h1>
+        <p class="hero-subtitle">Quality Japanese imports, carefully sourced and verified for the discerning buyer.</p>
+      </div>
+    </div>
+
+    <!-- Search Card (floats up over hero) -->
+    <div class="search-float">
+      <div class="search-card">
+        <div class="search-tabs">
+          <div class="search-tab active" onclick="setSearchTab(this)">All</div>
+          <div class="search-tab" onclick="setSearchTab(this)">Local</div>
+          <div class="search-tab" onclick="setSearchTab(this)">Import</div>
+        </div>
+        <div class="search-fields">
+          <div class="search-field-wrap">
+            <div class="search-field">
+              <div class="sf-label">Select Make</div>
+              <select class="sf-select">
+                <option>Any Make</option><option>Toyota</option><option>Nissan</option>
+                <option>Honda</option><option>Lexus</option><option>Mazda</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-field-wrap">
+            <div class="search-field">
+              <div class="sf-label">Select Model</div>
+              <select class="sf-select">
+                <option>Any Model</option><option>Land Cruiser</option>
+                <option>GT-R</option><option>LX 600</option><option>Prado</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-field-wrap">
+            <div class="search-field">
+              <div class="sf-label">Model Year</div>
+              <select class="sf-select">
+                <option>Any Year</option><option>2020 – 2025</option>
+                <option>2015 – 2019</option><option>2010 – 2014</option>
+              </select>
+            </div>
+          </div>
+          <div class="search-field-wrap">
+            <div class="search-field">
+              <div class="sf-label">Budget</div>
+              <select class="sf-select">
+                <option>Any Amount</option><option>Under ¥5M</option>
+                <option>¥5M – ¥10M</option><option>¥10M+</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="search-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9 9L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Search
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /hero-wrap -->
+
+  <!-- Stats Strip -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-val">47+</div>
+      <div class="stat-label">Vehicles</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-val">4.9★</div>
+      <div class="stat-label">Rating</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-val">8 wks</div>
+      <div class="stat-label">Delivery</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-val">10+ yrs</div>
+      <div class="stat-label">Experience</div>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Browse by Category</h2>
+      <span class="section-link">View all →</span>
+    </div>
+    <div class="cats-scroll">
+      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=300&h=200&q=80" alt="Luxury" onerror="this.style.opacity=0">
+        <div class="cat-card-text"><div class="cat-card-name">Luxury</div><div class="cat-card-count">18 units</div></div>
+      </div>
+      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+        <img src="https://images.unsplash.com/photo-1555215695-3d98bc139838?auto=format&fit=crop&w=300&h=200&q=80" alt="SUV" onerror="this.style.opacity=0">
+        <div class="cat-card-text"><div class="cat-card-name">SUV & 4x4</div><div class="cat-card-count">31 units</div></div>
+      </div>
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=300&h=200&q=80" alt="Sport" onerror="this.style.opacity=0">
+        <div class="cat-card-text"><div class="cat-card-name">Sport</div><div class="cat-card-count">16 units</div></div>
+      </div>
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=300&h=200&q=80" alt="Performance" onerror="this.style.opacity=0">
+        <div class="cat-card-text"><div class="cat-card-name">Performance</div><div class="cat-card-count">9 units</div></div>
+      </div>
+      <div class="cat-card">
+        <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=300&h=200&q=80" alt="Electric" onerror="this.style.opacity=0">
+        <div class="cat-card-text"><div class="cat-card-name">Electric</div><div class="cat-card-count">9 units</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recently Listed -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Recently Listed</h2>
+      <span class="section-link">All →</span>
+    </div>
+    <div class="cars-scroll">
+
+      <div class="car-card" onclick="showPage('detail', document.querySelector('.demo-tab:nth-child(3)'))">
+        <div class="car-card-img">
+          <img src="https://images.unsplash.com/photo-1555215695-3d98bc139838?auto=format&fit=crop&w=500&h=300&q=80" alt="Land Cruiser" onerror="this.style.opacity=0">
+          <div class="car-card-save">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="car-card-body">
+          <div class="car-make">Toyota</div>
+          <div class="car-model">Land Cruiser 300</div>
+          <div class="car-specs">
+            <div class="cs"><div class="cs-label">Year</div><div class="cs-val">2022</div></div>
+            <div class="cs"><div class="cs-label">Engine</div><div class="cs-val">4.0L V6</div></div>
+            <div class="cs"><div class="cs-label">Fuel</div><div class="cs-val">Petrol</div></div>
+            <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">18k km</div></div>
+          </div>
+          <div class="car-price-row">
+            <div><div class="price-from">From</div><div class="price-num">¥8.4M <span class="price-ccy">JPY</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-card-img">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=500&h=300&q=80" alt="GT-R" onerror="this.style.opacity=0">
+          <div class="car-card-save">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="car-card-body">
+          <div class="car-make">Nissan</div>
+          <div class="car-model">GT-R Premium</div>
+          <div class="car-specs">
+            <div class="cs"><div class="cs-label">Year</div><div class="cs-val">2021</div></div>
+            <div class="cs"><div class="cs-label">Engine</div><div class="cs-val">3.8L V6T</div></div>
+            <div class="cs"><div class="cs-label">Drive</div><div class="cs-val">AWD</div></div>
+            <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">9k km</div></div>
+          </div>
+          <div class="car-price-row">
+            <div><div class="price-from">From</div><div class="price-num">¥12.9M <span class="price-ccy">JPY</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-card-img">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&h=300&q=80" alt="Lexus LX" onerror="this.style.opacity=0">
+          <div class="car-card-save">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="car-card-body">
+          <div class="car-make">Lexus</div>
+          <div class="car-model">LX 600</div>
+          <div class="car-specs">
+            <div class="cs"><div class="cs-label">Year</div><div class="cs-val">2023</div></div>
+            <div class="cs"><div class="cs-label">Engine</div><div class="cs-val">3.5L V6T</div></div>
+            <div class="cs"><div class="cs-label">Drive</div><div class="cs-val">4WD</div></div>
+            <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">6k km</div></div>
+          </div>
+          <div class="car-price-row">
+            <div><div class="price-from">From</div><div class="price-num">¥18.2M <span class="price-ccy">JPY</span></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Dark Band — How It Works -->
+  <div class="dark-band">
+    <div class="dark-band-eyebrow">Our Process</div>
+    <h2 class="dark-band-title">We make importing<br><em>straightforward</em></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <div class="step-title">Browse & Select</div>
+          <div class="step-desc">Choose from our listed stock or request a quote for a similar unit.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <div class="step-title">Get a Quote</div>
+          <div class="step-desc">We send a full landed cost estimate — no hidden fees, no surprises.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <div class="step-title">Commit</div>
+          <div class="step-desc">Pay a deposit to get the process started. We share available options for your approval to purchase.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <div class="step-title">We Handle Everything</div>
+          <div class="step-desc">Shipping, port clearance, inspection, and door step delivery.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title">What Our Clients Are Saying</h2>
+        <div style="font-size:12px; color:var(--text-3); margin-top:6px;">Rated 4.9 / 5 · 28,370 reviews</div>
+      </div>
+    </div>
+    <div class="tests-scroll">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"The process was entirely stress-free. Tokyo Select handled everything — shipping, documentation, delivery."</p>
+        <div class="test-author">
+          <div class="test-avatar">JR</div>
+          <div>
+            <div class="test-name">James R.</div>
+            <div class="test-meta">Imported Lexus LX 570 · Nairobi</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"I appreciated the transparency. No hidden costs, no pressure. Just a clear quote and a very good car."</p>
+        <div class="test-author">
+          <div class="test-avatar">AK</div>
+          <div>
+            <div class="test-name">Amara K.</div>
+            <div class="test-meta">Imported Toyota Prado · Lagos</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-quote">"Six weeks from quote to delivery. The vehicle was exactly as described. I've already referred three friends."</p>
+        <div class="test-author">
+          <div class="test-avatar">DM</div>
+          <div>
+            <div class="test-name">David M.</div>
+            <div class="test-meta">Imported Nissan GT-R · Johannesburg</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title">Import Insights</h2>
+      <span class="section-link">All posts →</span>
+    </div>
+    <div>
+      <div class="blog-card">
+        <div class="blog-body">
+          <div class="blog-tag">Import Guide</div>
+          <div class="blog-title">What to know before importing a Japanese vehicle</div>
+          <div class="blog-date">Feb 14, 2026</div>
+        </div>
+        <div class="blog-thumb">
+          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=260&h=220&q=80" alt="">
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-body">
+          <div class="blog-tag">Inspection</div>
+          <div class="blog-title">How auction grade ratings work in Japan</div>
+          <div class="blog-date">Jan 30, 2026</div>
+        </div>
+        <div class="blog-thumb">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=260&h=220&q=80" alt="">
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-body">
+          <div class="blog-tag">Logistics</div>
+          <div class="blog-title">RoRo vs Container shipping — which is right for you?</div>
+          <div class="blog-date">Jan 12, 2026</div>
+        </div>
+        <div class="blog-thumb">
+          <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=260&h=220&q=80" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+
+    <!-- Logo centred -->
+    <div class="footer-logo-wrap">
+      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    </div>
+
+    <!-- Company -->
+    <div class="footer-section">
+      <div class="footer-section-title">Company</div>
+      <div class="footer-section-links">
+        <a class="footer-link" href="#">Who We Are</a>
+        <a class="footer-link" href="#">Get In Touch</a>
+        <a class="footer-link" href="#">FAQs</a>
+      </div>
+    </div>
+
+    <!-- Explore -->
+    <div class="footer-section">
+      <div class="footer-section-title">Explore</div>
+      <div class="footer-section-links">
+        <a class="footer-link" href="#">Browse Cars</a>
+        <a class="footer-link" href="#">Sell / Trade</a>
+        <a class="footer-link" href="#">Import Process</a>
+      </div>
+    </div>
+
+    <!-- Connect -->
+    <div class="footer-section">
+      <div class="footer-section-title">Connect With Us</div>
+      <div class="footer-social-row">
+        <!-- Facebook -->
+        <a class="footer-social-icon" href="#" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <!-- Instagram -->
+        <a class="footer-social-icon" href="#" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        </a>
+        <!-- TikTok -->
+        <a class="footer-social-icon" href="#" aria-label="TikTok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.85a8.2 8.2 0 004.79 1.54V6.94a4.85 4.85 0 01-1.02-.25z"/></svg>
+        </a>
+        <!-- LinkedIn -->
+        <a class="footer-social-icon" href="#" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Lower footer -->
+    <div class="footer-lower">
+      <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
+      <div class="footer-legal-row">
+        <a href="#">Legal Notice</a> &nbsp;&middot;&nbsp;
+        <a href="#">Terms &amp; Conditions</a> &nbsp;&middot;&nbsp;
+        <a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp;
+        <a href="#">Cookie Policy</a>
+      </div>
+      <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+    </div>
+
+  </footer>
+
+</div><!-- /home -->
+
+
+<!-- ══════════════════════════════════════════
+                LISTING PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-listing">
+
+  <nav class="nav" style="top:33px;">
+    <a class="nav-logo" href="#"><svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg><span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span></a>
+    <div class="nav-actions">
+      <button class="nav-icon-btn" onclick="openMenu()" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="listing-header">
+    <h1 class="listing-title">Inventory</h1>
+  </div>
+
+  <!-- Listing search bar -->
+  <div class="listing-search">
+    <div class="ls-inner">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="5"/><path d="M10.5 10.5L15 15"/></svg>
+      <input class="ls-input" type="search" placeholder="Search make, model, or keyword…">
+    </div>
+  </div>
+
+  <div class="listing-header" style="padding-top: 16px;">
+    <div class="listing-meta">47 vehicles available</div>
+    <div class="filter-bar">
+      <div class="filter-pill-filters" onclick="openFilters()">
+        <svg width="13" height="11" viewBox="0 0 13 11" fill="none"><path d="M0.5 1h12M2.5 5.5h8M4.5 10h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Filters
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-pill active" onclick="setFilter(this)">All</div>
+      <div class="filter-pill" onclick="setFilter(this)">Make</div>
+      <div class="filter-pill" onclick="setFilter(this)">Model</div>
+      <div class="filter-pill" onclick="setFilter(this)">Year</div>
+      <div class="filter-pill" onclick="setFilter(this)">Wagon</div>
+      <div class="filter-pill" onclick="setFilter(this)">Electric</div>
+    </div>
+  </div>
+
+  <div class="listing-grid">
+
+    <!-- Card 1 -->
+    <div class="listing-card" onclick="showPage('detail', document.querySelector('.demo-tab:nth-child(3)'))">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&h=400&q=80" alt="Land Cruiser 300">
+        <div class="lc-badge">New Arrival</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Toyota</div><div class="lc-model">Land Cruiser 300</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2022</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">4.0L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">18k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">4WD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥8,400,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=800&h=400&q=80" alt="GT-R" onerror="this.style.opacity=0">
+        <div class="lc-badge gold">Featured</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Nissan</div><div class="lc-model">GT-R Premium</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2021</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">3.8L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">9k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">AWD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥12,900,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&h=400&q=80" alt="Lexus LX" onerror="this.style.opacity=0">
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Lexus</div><div class="lc-model">LX 600 F Sport</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2023</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">3.5L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">6k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">4WD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥18,200,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&h=400&q=80" alt="Mazda CX-60" onerror="this.style.opacity=0">
+        <div class="lc-badge">Hybrid</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Mazda</div><div class="lc-model">CX-60 PHEV</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2024</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.5L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">3k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Fuel</div><div class="lc-spec-val">Hybrid</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥6,800,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="pg-btn disabled" aria-label="Previous">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="pg-btn active">1</button>
+    <button class="pg-btn">2</button>
+    <button class="pg-btn">3</button>
+    <span class="pg-ellipsis">…</span>
+    <button class="pg-btn">8</button>
+    <button class="pg-btn" aria-label="Next">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2L10 7L5 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+
+    <div class="footer-logo-wrap">
+      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    </div>
+
+    <div class="footer-section">
+      <div class="footer-section-title">Company</div>
+      <div class="footer-section-links">
+        <a class="footer-link" href="#">Who We Are</a>
+        <a class="footer-link" href="#">Get In Touch</a>
+        <a class="footer-link" href="#">FAQs</a>
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <div class="footer-section-title">Explore</div>
+      <div class="footer-section-links">
+        <a class="footer-link" href="#">Browse Cars</a>
+        <a class="footer-link" href="#">Sell / Trade</a>
+        <a class="footer-link" href="#">Import Process</a>
+      </div>
+    </div>
+
+    <div class="footer-section">
+      <div class="footer-section-title">Connect With Us</div>
+      <div class="footer-social-row">
+        <a class="footer-social-icon" href="#" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a class="footer-social-icon" href="#" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        </a>
+        <a class="footer-social-icon" href="#" aria-label="TikTok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.85a8.2 8.2 0 004.79 1.54V6.94a4.85 4.85 0 01-1.02-.25z"/></svg>
+        </a>
+        <a class="footer-social-icon" href="#" aria-label="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-lower">
+      <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
+      <div class="footer-legal-row">
+        <a href="#">Legal Notice</a> &nbsp;&middot;&nbsp;
+        <a href="#">Terms &amp; Conditions</a> &nbsp;&middot;&nbsp;
+        <a href="#">Privacy Policy</a> &nbsp;&middot;&nbsp;
+        <a href="#">Cookie Policy</a>
+      </div>
+      <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+    </div>
+
+  </footer>
+
+  <!-- ── Filters Modal ── -->
+  <div class="filter-overlay" id="filterOverlay" onclick="closeFilters()"></div>
+  <div class="filter-panel" id="filterPanel">
+
+    <div class="filter-panel-header">
+      <div class="filter-panel-title">Filters</div>
+      <div class="filter-panel-close" onclick="closeFilters()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 1.5l10 10M11.5 1.5l-10 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+
+    <div class="filter-panel-body">
+
+      <!-- Stock Type -->
+      <div class="fp-section">
+        <div class="fp-section-label">Stock Type</div>
+        <div class="fp-stock-toggle">
+          <div class="fp-stock-opt" onclick="toggleStockOpt(this)">Local</div>
+          <div class="fp-stock-opt active" onclick="toggleStockOpt(this)">Import</div>
+        </div>
+      </div>
+
+      <!-- Make & Model -->
+      <div class="fp-section">
+        <div class="fp-section-label">Make &amp; Model</div>
+        <div class="fp-select-wrap" style="margin-bottom:10px;">
+          <select>
+            <option>Any Make</option>
+            <option>Toyota</option><option>Nissan</option>
+            <option>Honda</option><option>Lexus</option><option>Mazda</option>
+          </select>
+        </div>
+        <div class="fp-select-wrap">
+          <select>
+            <option>Any Model</option>
+            <option>Land Cruiser</option><option>GT-R</option>
+            <option>LX 600</option><option>Prado</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Year -->
+      <div class="fp-section">
+        <div class="fp-section-label">Year</div>
+        <div class="fp-range-row">
+          <div class="fp-range-field">
+            <div class="fp-range-sublabel">From</div>
+            <input class="fp-range-input" type="number" placeholder="e.g. 2015" min="1990" max="2025">
+          </div>
+          <div class="fp-range-field">
+            <div class="fp-range-sublabel">To</div>
+            <input class="fp-range-input" type="number" placeholder="e.g. 2025" min="1990" max="2025">
+          </div>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="fp-section">
+        <div class="fp-section-label">Price (KES)</div>
+        <div class="fp-range-row">
+          <div class="fp-range-field">
+            <div class="fp-range-sublabel">From</div>
+            <input class="fp-range-input" type="number" placeholder="Min">
+          </div>
+          <div class="fp-range-field">
+            <div class="fp-range-sublabel">To</div>
+            <input class="fp-range-input" type="number" placeholder="Max">
+          </div>
+        </div>
+      </div>
+
+      <!-- Mileage -->
+      <div class="fp-section">
+        <div class="fp-section-label">Mileage (km)</div>
+        <div class="fp-range-row">
+          <div class="fp-range-field">
+            <div class="fp-range-sublabel">From</div>
+            <input class="fp-range-input" type="number" placeholder="Min">
+          </div>
+          <div class="fp-range-field">
+            <div class="fp-range-sublabel">To</div>
+            <input class="fp-range-input" type="number" placeholder="Max">
+          </div>
+        </div>
+      </div>
+
+      <!-- Body Style -->
+      <div class="fp-section">
+        <div class="fp-section-label">Body Style</div>
+        <div class="fp-select-wrap">
+          <select>
+            <option>Any Body Style</option>
+            <option>Sedan</option><option>Hatchback</option><option>Station Wagon</option>
+            <option>Mini SUV</option><option>SUV</option><option>Pick Up</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Exterior Colour -->
+      <div class="fp-section">
+        <div class="fp-section-label">Exterior Colour</div>
+        <div class="fp-select-wrap">
+          <select>
+            <option>Any Colour</option>
+            <option>White</option><option>Black</option><option>Silver</option>
+            <option>Grey</option><option>Red</option><option>Blue</option>
+            <option>Brown</option><option>Gold</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Fuel Type -->
+      <div class="fp-section">
+        <div class="fp-section-label">Fuel Type</div>
+        <div class="fp-select-wrap">
+          <select>
+            <option>Any Fuel Type</option>
+            <option>Petrol</option><option>Diesel</option><option>Hybrid</option>
+            <option>MHEV</option><option>Electric</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Transmission -->
+      <div class="fp-section">
+        <div class="fp-section-label">Transmission</div>
+        <div class="fp-select-wrap">
+          <select>
+            <option>Any Transmission</option>
+            <option>Automatic</option><option>Manual</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Drivetrain -->
+      <div class="fp-section">
+        <div class="fp-section-label">Drivetrain</div>
+        <div class="fp-select-wrap">
+          <select>
+            <option>Any Drivetrain</option>
+            <option>2WD</option><option>4WD</option><option>AWD</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Keyword -->
+      <div class="fp-section">
+        <div class="fp-section-label">Keyword</div>
+        <div class="fp-input-wrap">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="5.5" cy="5.5" r="4"/><path d="M9 9l4 4"/></svg>
+          <input class="fp-input" type="text" placeholder="e.g. sunroof">
+        </div>
+      </div>
+
+      <div style="height:8px;"></div>
+    </div>
+
+    <div class="filter-panel-footer">
+      <span class="fp-clear" onclick="clearFilters()">Clear all</span>
+      <button class="fp-show" onclick="closeFilters()">Show results</button>
+    </div>
+
+  </div>
+
+</div><!-- /listing -->
+
+
+<!-- ══════════════════════════════════════════
+                DETAIL PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-detail">
+
+  <!-- Gallery -->
+  <div class="detail-gallery">
+    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85" alt="Land Cruiser 300">
+    <button class="dg-btn dg-back" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="dg-btn dg-save">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 13S2 9.5 2 5.75A3.5 3.5 0 017.5 2.9a3.5 3.5 0 015.5 2.85C13 9.5 7.5 13 7.5 13z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="gallery-dots">
+      <div class="gdot active"></div>
+      <div class="gdot"></div>
+      <div class="gdot"></div>
+      <div class="gdot"></div>
+    </div>
+  </div>
+
+  <!-- Thumbnails -->
+  <div class="gallery-thumbs">
+    <div class="gthumb active">
+      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=120&h=90&q=70" alt="">
+    </div>
+    <div class="gthumb">
+      <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=120&h=90&q=70" alt="">
+    </div>
+    <div class="gthumb">
+      <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=120&h=90&q=70" alt="">
+    </div>
+    <div class="gthumb">
+      <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=120&h=90&q=70" alt="">
+    </div>
+    <div class="gthumb">
+      <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=120&h=90&q=70" alt="">
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="detail-body">
+    <div class="detail-top">
+      <div class="detail-make">Toyota</div>
+      <div class="detail-year">2022 Model</div>
+    </div>
+    <div class="detail-model">Land Cruiser 300</div>
+
+    <div class="detail-specs">
+      <div class="dspec"><div class="dspec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="2.5"/><path d="M8.5 1v2M8.5 14v2M1 8.5h2M14 8.5h2M3 3l1.5 1.5M12 12l1.5 1.5M3 14l1.5-1.5M12 5l1.5-1.5"/></svg></div><div class="dspec-label">Engine</div><div class="dspec-val">4.0L V6</div></div>
+      <div class="dspec"><div class="dspec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14L5.5 3h6L15 14"/><path d="M5 9.5h7"/></svg></div><div class="dspec-label">Mileage</div><div class="dspec-val">18,200 km</div></div>
+      <div class="dspec"><div class="dspec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2.5C8.5 2.5 4 8 4 11a4.5 4.5 0 009 0c0-3-4.5-8.5-4.5-8.5z"/></svg></div><div class="dspec-label">Fuel</div><div class="dspec-val">Petrol</div></div>
+      <div class="dspec"><div class="dspec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="6.5"/><path d="M2 8.5h13M8.5 2v13"/></svg></div><div class="dspec-label">Drive</div><div class="dspec-val">4WD</div></div>
+      <div class="dspec"><div class="dspec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4v9m0-9L2 6m2-2l2 2M13 4v9m0 0l-2-2m2 2l2-2M8.5 2v13"/></svg></div><div class="dspec-label">Trans.</div><div class="dspec-val">Auto 10spd</div></div>
+      <div class="dspec"><div class="dspec-icon"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5l2 4h4.5L11 8.5l1.5 4.5-4-2.5-4 2.5L6 8.5 2 6h4.5z"/></svg></div><div class="dspec-label">Grade</div><div class="dspec-val">4.5 / 5</div></div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="detail-section-label">About this vehicle</div>
+    <p class="detail-desc">This Land Cruiser 300 was sourced directly from a Toyota dealer auction in Osaka with a verified service history. Low kilometres, unmarked bodywork, and no recorded incidents. The interior is in pristine condition with factory-installed GR Sport trim.</p>
+
+    <div class="divider"></div>
+    <div class="detail-section-label">Notable features</div>
+    <div class="detail-features">
+      <div class="detail-feat">Multi-terrain select with crawl control</div>
+      <div class="detail-feat">360° camera system with parking sensors</div>
+      <div class="detail-feat">Factory sunroof with power shade</div>
+      <div class="detail-feat">Heated and ventilated front seats</div>
+      <div class="detail-feat">JBL premium 14-speaker audio system</div>
+      <div class="detail-feat">Toyota Safety Sense 3.0</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="detail-section-label">Import note</div>
+    <p class="detail-desc" style="font-size:13px;">Estimated import timeline is 6–8 weeks. Final landed cost includes shipping, port handling, inspection, and documentation. A formal quotation is provided on request.</p>
+
+    <div class="spacer"></div>
+  </div>
+
+  <div class="sticky-bar">
+    <div>
+      <div class="sb-price-label">Import from</div>
+      <div class="sb-price">KES 8,400,000</div>
+      <div class="sb-note">Incl. destination duties</div>
+    </div>
+    <button class="sb-cta" onclick="openEnquiry()">Enquire</button>
+  </div>
+
+</div><!-- /detail -->
+
+
+<!-- ══════════════════════════════════════════
+                CONTACT PAGE
+══════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+
+  <nav class="nav" style="top:33px;">
+    <a class="nav-logo" href="#"><svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg><span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span></a>
+    <div class="nav-actions">
+      <button class="nav-icon-btn" onclick="openMenu()" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="contact-page">
+    <div class="contact-eyebrow">Get in touch</div>
+    <h1 class="contact-title">Request your<br><em>import quote</em></h1>
+    <p class="contact-sub">Tell us about the vehicle you're after. We'll send a detailed landed cost within one business day.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input class="form-input" type="text" placeholder="James">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input class="form-input" type="text" placeholder="Roberts">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email Address</label>
+      <input class="form-input" type="email" placeholder="your@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone (optional)</label>
+      <input class="form-input" type="tel" placeholder="+254 700 000 000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Vehicle of Interest</label>
+      <input class="form-input" type="text" placeholder="e.g. Toyota Land Cruiser 300 — 2022">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Destination Country</label>
+      <input class="form-input" type="text" placeholder="e.g. Kenya, Nigeria, South Africa">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message (optional)</label>
+      <textarea class="form-input" placeholder="Any specific requirements or questions..."></textarea>
+    </div>
+
+    <div class="contact-info">
+      <div class="contact-info-label">Other ways to reach us</div>
+      <div class="cinfo-item"><span class="cinfo-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M1 4.5l7 4.5 7-4.5"/></svg></span><span>inquiries@tokyoselect.com</span></div>
+      <div class="cinfo-item"><span class="cinfo-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3.5l2.5 2"/></svg></span><span>Responses within 1 business day</span></div>
+      <div class="cinfo-item"><span class="cinfo-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5a5 5 0 015 5c0 4-5 8.5-5 8.5S3 10.5 3 6.5a5 5 0 015-5z"/><circle cx="8" cy="6.5" r="1.5"/></svg></span><span>Based in Tokyo · Serving Africa & Beyond</span></div>
+    </div>
+  </div>
+
+  <div class="sticky-bar">
+    <button class="sb-cta" style="font-size:15px;">Send Quote Request</button>
+  </div>
+
+</div><!-- /contact -->
+
+
+<!-- ─── ENQUIRY MODAL ─── -->
+<div class="enq-overlay" id="enqOverlay" onclick="closeEnquiry()"></div>
+<div class="enq-panel" id="enqPanel">
+  <div class="enq-header">
+    <div class="enq-title">Your Enquiry</div>
+    <button class="enq-close" onclick="closeEnquiry()" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="enq-body">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">First Name</label>
+        <input class="form-input" type="text" placeholder="John">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name</label>
+        <input class="form-input" type="text" placeholder="Kamau">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" placeholder="john.kamau@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone Number</label>
+      <input class="form-input" type="tel" placeholder="+254 7XX XXX XXX">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Your Message (Optional)</label>
+      <textarea class="form-input" placeholder="I'm interested in this unit. Please share the full landed cost and next steps."></textarea>
+    </div>
+  </div>
+  <div class="enq-footer">
+    <button class="enq-send">Send</button>
+  </div>
+</div>
+
+<!-- ─── FULL-SCREEN MENU OVERLAY ─── -->
+<div class="menu-overlay" id="menuOverlay">
+  <button class="menu-close" onclick="closeMenu()" aria-label="Close menu">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+  </button>
+  <nav class="menu-nav">
+    <div class="menu-item" onclick="closeMenu(); showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">Browse Cars</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item">Sell / Trade</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item">Import Process</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item" onclick="closeMenu(); showPage('contact', document.querySelector('.demo-tab:nth-child(4)'))">Contact</div>
+    <div class="menu-divider"></div>
+    <div class="menu-item">FAQs</div>
+  </nav>
+  <div class="menu-contact">inquiries@tokyoselect.com</div>
+</div>
+
+<script>
+  function showPage(id, tabEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (tabEl) tabEl.classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'detail') setTimeout(animateDspecValues, 60);
+  }
+
+  function openMenu() {
+    document.getElementById('menuOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    document.getElementById('menuOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close overlay on outside click
+  document.getElementById('menuOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeMenu();
+  });
+
+  function animateDspecValues() {
+    document.querySelectorAll('#page-detail .dspec-val').forEach(function(el) {
+      var original = el.textContent;
+      var m = original.match(/^(.*?)(\d[\d,]*(?:\.\d+)?)(.*)$/);
+      if (!m) return;
+      var pre = m[1], numStr = m[2], suf = m[3];
+      var useComma = numStr.indexOf(',') !== -1;
+      var useDecimal = numStr.indexOf('.') !== -1;
+      var target = parseFloat(numStr.replace(/,/g, ''));
+      if (!target) return;
+      var duration = 550, start = null;
+      function fmt(n) {
+        var s = useDecimal ? n.toFixed(1) : String(Math.round(n));
+        if (useComma) s = Math.round(n).toLocaleString('en');
+        return s;
+      }
+      function step(ts) {
+        if (!start) start = ts;
+        var p = Math.min((ts - start) / duration, 1);
+        /* linear — no easing — gives mechanical timer/counter feel */
+        el.textContent = pre + fmt(target * p) + suf;
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = original; /* snap to exact original on finish */
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  function setSearchTab(el) {
+    el.closest('.search-tabs').querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function setFilter(el) {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function openEnquiry() {
+    document.getElementById('enqOverlay').classList.add('open');
+    document.getElementById('enqPanel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeEnquiry() {
+    document.getElementById('enqOverlay').classList.remove('open');
+    document.getElementById('enqPanel').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openFilters() {
+    document.getElementById('filterOverlay').classList.add('open');
+    document.getElementById('filterPanel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFilters() {
+    document.getElementById('filterOverlay').classList.remove('open');
+    document.getElementById('filterPanel').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function toggleChip(el) {
+    el.classList.toggle('selected');
+  }
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+  function toggleStockOpt(el) {
+    var opts = el.parentElement.querySelectorAll('.fp-stock-opt');
+    if (el.classList.contains('active')) {
+      el.classList.remove('active');
+    } else {
+      opts.forEach(o => o.classList.remove('active'));
+      el.classList.add('active');
+    }
+  }
+  function clearFilters() {
+    document.querySelectorAll('#filterPanel .fp-stock-opt').forEach(o => o.classList.remove('active'));
+    document.querySelectorAll('#filterPanel .fp-check-item').forEach(c => c.classList.remove('checked'));
+    document.querySelectorAll('#filterPanel select').forEach(s => s.selectedIndex = 0);
+    document.querySelectorAll('#filterPanel .fp-input, #filterPanel .fp-range-input').forEach(i => i.value = '');
+  }
+
+  // Gallery thumb clicks
+  document.querySelectorAll('.gthumb').forEach(t => {
+    t.addEventListener('click', function() {
+      document.querySelectorAll('.gthumb').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+      // Update gallery dots
+      const idx = Array.from(this.parentElement.children).indexOf(this);
+      document.querySelectorAll('.gdot').forEach((d,i) => d.classList.toggle('active', i === idx));
+    });
+  });
+
+  // Save button toggle (heart icon)
+  document.querySelectorAll('.car-card-save, .lc-save, .dg-save').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const svg = this.querySelector('svg path');
+      if (svg) {
+        const saved = svg.getAttribute('fill') === '#e0245e';
+        svg.setAttribute('fill', saved ? 'none' : '#e0245e');
+        svg.setAttribute('stroke', saved ? 'currentColor' : '#e0245e');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
