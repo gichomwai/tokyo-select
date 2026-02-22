@@ -409,8 +409,8 @@ img { display: block; }
 .cats-scroll::-webkit-scrollbar { display: none; }
 .cat-card {
   flex-shrink: 0;
-  width: 156px;      /* 2.5 cards visible: (430 - 16px padding) / 2.5 - gaps */
-  height: 148px;
+  width: 177px;
+  height: 168px;
   border-radius: var(--r-lg);
   scroll-snap-align: start;
   overflow: hidden;
@@ -440,11 +440,11 @@ img { display: block; }
   z-index: 1;
 }
 .cat-card-name {
-  font-size: 13px;
-  font-weight: 700;
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
   color: #FFFFFF;
-  line-height: 1.2;
-  letter-spacing: 0.1px;
+  line-height: 1.15;
+  letter-spacing: -0.2px;
 }
 .cat-card-count {
   font-size: 10px;
@@ -606,19 +606,23 @@ img { display: block; }
 .tests-scroll::-webkit-scrollbar { display: none; }
 .test-card {
   flex-shrink: 0;
-  width: 278px;
+  width: 242px;
+  min-height: 224px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  padding: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
 }
 .test-stars { color: #E8A027; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; }
 .test-quote {
+  flex: 1;
   font-size: 13px;
   font-style: italic;
   color: var(--text-2);
   line-height: 1.7;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .test-author { display: flex; align-items: center; gap: 10px; }
 .test-avatar {
@@ -712,36 +716,39 @@ img { display: block; }
 /* ═══════════════════════════════════
    BLOG CARDS
 ═══════════════════════════════════ */
-.blog-card {
+.blog-scroll {
   display: flex;
-  flex-direction: row;
+  gap: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.blog-scroll::-webkit-scrollbar { display: none; }
+.blog-card {
+  flex-shrink: 0;
+  width: 260px;
   background: #FFFFFF;
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
   overflow: hidden;
   cursor: pointer;
   box-shadow: var(--card-shadow);
-  transition: box-shadow 0.2s var(--ease-out), opacity 0.15s;
-  margin-bottom: 14px;
-  min-height: 110px;
+  transition: box-shadow 0.25s var(--ease-out), transform 0.18s;
 }
-.blog-card:last-child { margin-bottom: 0; }
-.blog-card:active { opacity: 0.72; }
-.blog-body {
-  flex: 1;
-  min-width: 0;
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+.blog-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+.blog-card:active { transform: scale(0.98) translateY(0); }
 .blog-thumb {
-  width: 130px;
-  flex-shrink: 0;
+  height: 148px;
   background: var(--surface-2);
   overflow: hidden;
 }
-.blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s var(--ease-out); }
+.blog-card:hover .blog-thumb img { transform: scale(1.04); }
+.blog-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+}
 .blog-tag { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 6px; }
 .blog-title { font-size: 14px; font-weight: 600; color: var(--text-1); line-height: 1.4; margin-bottom: 7px; }
 .blog-date { font-size: 11px; color: var(--text-3); }
@@ -1471,9 +1478,9 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   .stat-label { font-size: 10px; }
   .section { padding: 28px 16px; }
   .cats-scroll { margin-left: -16px; margin-right: -16px; }
-  .cat-card { width: 132px; height: 128px; }
+  .cat-card { width: 150px; height: 142px; }
   .car-card { width: 200px; }
-  .test-card { width: 240px; }
+  .test-card { width: 210px; min-height: 206px; }
   .dark-band { padding: 36px 18px 40px; }
   .dark-band-title { font-size: 26px; }
   .listing-header { padding: 20px 16px 0; }
@@ -1503,10 +1510,10 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   .stat-val { font-size: 24px; }
   .section { padding: 40px 24px; }
   .cats-scroll { margin-left: -24px; margin-right: -24px; }
-  .cat-card { width: 172px; height: 158px; }
+  .cat-card { width: 197px; height: 186px; }
   .car-card { width: 262px; }
   .car-card-img { height: 158px; }
-  .test-card { width: 300px; }
+  .test-card { width: 264px; min-height: 234px; }
   .dark-band { padding: 48px 28px 54px; }
   .dark-band-title { font-size: 36px; }
   .listing-header { padding: 28px 24px 0; }
@@ -1537,10 +1544,10 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   .section { padding: 48px 32px; }
   .cats-scroll { margin-left: -32px; margin-right: -32px; }
   .section-title { font-size: 25px; }
-  .cat-card { width: 200px; height: 178px; }
+  .cat-card { width: 225px; height: 213px; }
   .car-card { width: 300px; }
   .car-card-img { height: 172px; }
-  .test-card { width: 330px; }
+  .test-card { width: 288px; min-height: 242px; }
   .dark-band { padding: 56px 44px 64px; }
   .dark-band-title { font-size: 44px; }
   .listing-header { padding: 32px 32px 0; }
@@ -1692,7 +1699,6 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   <section class="section">
     <div class="section-head">
       <h2 class="section-title">Browse by Category</h2>
-      <span class="section-link">View all →</span>
     </div>
     <div class="cats-scroll">
       <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
@@ -1700,7 +1706,7 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
         <div class="cat-card-text"><div class="cat-card-name">Luxury</div><div class="cat-card-count">18 units</div></div>
       </div>
       <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1555215695-3d98bc139838?auto=format&fit=crop&w=300&h=200&q=80" alt="SUV" onerror="this.style.opacity=0">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=300&h=200&q=80" alt="SUV" onerror="this.style.opacity=0">
         <div class="cat-card-text"><div class="cat-card-name">SUV & 4x4</div><div class="cat-card-count">31 units</div></div>
       </div>
       <div class="cat-card">
@@ -1728,7 +1734,7 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
 
       <div class="car-card" onclick="showPage('detail', document.querySelector('.demo-tab:nth-child(3)'))">
         <div class="car-card-img">
-          <img src="https://images.unsplash.com/photo-1555215695-3d98bc139838?auto=format&fit=crop&w=500&h=300&q=80" alt="Land Cruiser" onerror="this.style.opacity=0">
+          <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=500&h=300&q=80" alt="Land Cruiser" onerror="this.style.opacity=0">
           <div class="car-card-save">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
           </div>
@@ -1882,35 +1888,35 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
       <h2 class="section-title">Import Insights</h2>
       <span class="section-link">All posts →</span>
     </div>
-    <div>
+    <div class="blog-scroll">
       <div class="blog-card">
+        <div class="blog-thumb">
+          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=520&h=296&q=80" alt="">
+        </div>
         <div class="blog-body">
           <div class="blog-tag">Import Guide</div>
           <div class="blog-title">What to know before importing a Japanese vehicle</div>
           <div class="blog-date">Feb 14, 2026</div>
         </div>
-        <div class="blog-thumb">
-          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=260&h=220&q=80" alt="">
-        </div>
       </div>
       <div class="blog-card">
+        <div class="blog-thumb">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=520&h=296&q=80" alt="">
+        </div>
         <div class="blog-body">
           <div class="blog-tag">Inspection</div>
           <div class="blog-title">How auction grade ratings work in Japan</div>
           <div class="blog-date">Jan 30, 2026</div>
         </div>
-        <div class="blog-thumb">
-          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=260&h=220&q=80" alt="">
-        </div>
       </div>
       <div class="blog-card">
+        <div class="blog-thumb">
+          <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=520&h=296&q=80" alt="">
+        </div>
         <div class="blog-body">
           <div class="blog-tag">Logistics</div>
           <div class="blog-title">RoRo vs Container shipping — which is right for you?</div>
           <div class="blog-date">Jan 12, 2026</div>
-        </div>
-        <div class="blog-thumb">
-          <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=260&h=220&q=80" alt="">
         </div>
       </div>
     </div>
