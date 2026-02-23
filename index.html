@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https://images.unsplash.com data: blob:; connect-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
 <title>Tokyo Select — Premium Import Vehicles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
 <style>
 
@@ -197,12 +201,12 @@ img { display: block; }
   padding: 0 24px;
 }
 .hero-eyebrow {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   color: rgba(255,255,255,0.65);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .hero-title {
   font-family: 'DM Serif Display', serif;
@@ -210,7 +214,7 @@ img { display: block; }
   line-height: 1.05;
   letter-spacing: -0.8px;
   color: #FFFFFF;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .hero-title em { font-style: italic; }
 .hero-subtitle {
@@ -1612,8 +1616,8 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="hero-eyebrow">Kenya's Trusted Source For</div>
-        <h1 class="hero-title">Premium<br><em>Used Cars</em></h1>
-        <p class="hero-subtitle">Quality Japanese imports, carefully sourced and verified for the discerning buyer.</p>
+        <h1 class="hero-title">Premium<br>Used Cars</h1>
+        <p class="hero-subtitle">Quality Japanese imports, carefully<br>sourced and verified.</p>
       </div>
     </div>
 
@@ -2494,32 +2498,32 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">First Name</label>
-        <input class="form-input" type="text" placeholder="James">
+        <input class="form-input" type="text" placeholder="James" autocomplete="given-name">
       </div>
       <div class="form-group">
         <label class="form-label">Last Name</label>
-        <input class="form-input" type="text" placeholder="Roberts">
+        <input class="form-input" type="text" placeholder="Roberts" autocomplete="family-name">
       </div>
     </div>
     <div class="form-group">
       <label class="form-label">Email Address</label>
-      <input class="form-input" type="email" placeholder="your@email.com">
+      <input class="form-input" type="email" placeholder="your@email.com" autocomplete="email">
     </div>
     <div class="form-group">
       <label class="form-label">Phone (optional)</label>
-      <input class="form-input" type="tel" placeholder="+254 700 000 000">
+      <input class="form-input" type="tel" placeholder="+254 700 000 000" autocomplete="tel">
     </div>
     <div class="form-group">
       <label class="form-label">Vehicle of Interest</label>
-      <input class="form-input" type="text" placeholder="e.g. Toyota Land Cruiser 300 — 2022">
+      <input class="form-input" type="text" placeholder="e.g. Toyota Land Cruiser 300 — 2022" autocomplete="off">
     </div>
     <div class="form-group">
       <label class="form-label">Destination Country</label>
-      <input class="form-input" type="text" placeholder="e.g. Kenya, Nigeria, South Africa">
+      <input class="form-input" type="text" placeholder="e.g. Kenya, Nigeria, South Africa" autocomplete="off">
     </div>
     <div class="form-group">
       <label class="form-label">Message (optional)</label>
-      <textarea class="form-input" placeholder="Any specific requirements or questions..."></textarea>
+      <textarea class="form-input" placeholder="Any specific requirements or questions..." autocomplete="off"></textarea>
     </div>
 
     <div class="contact-info">
@@ -2550,24 +2554,24 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">First Name</label>
-        <input class="form-input" type="text" placeholder="John">
+        <input class="form-input" type="text" placeholder="John" autocomplete="given-name">
       </div>
       <div class="form-group">
         <label class="form-label">Last Name</label>
-        <input class="form-input" type="text" placeholder="Kamau">
+        <input class="form-input" type="text" placeholder="Kamau" autocomplete="family-name">
       </div>
     </div>
     <div class="form-group">
       <label class="form-label">Email</label>
-      <input class="form-input" type="email" placeholder="john.kamau@email.com">
+      <input class="form-input" type="email" placeholder="john.kamau@email.com" autocomplete="email">
     </div>
     <div class="form-group">
       <label class="form-label">Phone Number</label>
-      <input class="form-input" type="tel" placeholder="+254 7XX XXX XXX">
+      <input class="form-input" type="tel" placeholder="+254 7XX XXX XXX" autocomplete="tel">
     </div>
     <div class="form-group">
       <label class="form-label">Your Message (Optional)</label>
-      <textarea class="form-input" placeholder="I'm interested in this unit. Please share the full landed cost and next steps."></textarea>
+      <textarea class="form-input" placeholder="I'm interested in this unit. Please share the full landed cost and next steps." autocomplete="off"></textarea>
     </div>
   </div>
   <div class="enq-footer">
@@ -2596,9 +2600,11 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
 
 <script>
   function showPage(id, tabEl) {
+    var page = document.getElementById('page-' + id);
+    if (!page) return;
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
+    page.classList.add('active');
     if (tabEl) tabEl.classList.add('active');
     window.scrollTo(0, 0);
     if (id === 'detail') setTimeout(animateDspecValues, 60);
