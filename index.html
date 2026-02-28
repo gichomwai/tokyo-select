@@ -170,13 +170,13 @@ img { display: block; }
   min-height: 420px;            /* floor for very short screens */
   position: relative;
   overflow: hidden;
-  background: #0a0a0a;
+  background: linear-gradient(160deg, #1c2130 0%, #0e1018 50%, #0a0a0a 100%);
 }
 .hero-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 50%;
+  object-position: center 55%; /* keeps SUV centred and visible across mobile widths */
   opacity: 0.72;
   transition: opacity 0.4s;
 }
@@ -199,6 +199,7 @@ img { display: block; }
   right: 0;
   transform: translateY(calc(-50% + 14px)); /* shifted down toward search bar for visual balance */
   padding: 0 24px;
+  text-align: center;
 }
 .hero-eyebrow {
   font-size: 10px;
@@ -211,6 +212,8 @@ img { display: block; }
 .hero-title {
   font-family: 'DM Serif Display', serif;
   font-size: 51px;
+  font-style: italic;
+  font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.8px;
   color: #FFFFFF;
@@ -413,8 +416,8 @@ img { display: block; }
 .cats-scroll::-webkit-scrollbar { display: none; }
 .cat-card {
   flex-shrink: 0;
-  width: 177px;
-  height: 168px;
+  width: 210px;
+  height: 190px;
   border-radius: var(--r-lg);
   scroll-snap-align: start;
   overflow: hidden;
@@ -440,21 +443,25 @@ img { display: block; }
 .cat-card-text {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  padding: 10px 12px;
+  padding: 12px 14px;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .cat-card-name {
   font-family: 'DM Serif Display', serif;
   font-size: 16px;
   color: #FFFFFF;
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.2px;
 }
-.cat-card-count {
-  font-size: 10px;
-  color: rgba(255,255,255,0.68);
-  font-weight: 500;
-  margin-top: 1px;
+.cat-card-arrow {
+  flex-shrink: 0;
+  color: rgba(255,255,255,0.78);
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
 }
 
 /* ═══════════════════════════════════
@@ -1819,16 +1826,17 @@ select.form-input {
     <div class="hero">
       <img
         class="hero-img"
-        src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=85"
+        src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1400&h=900&q=85"
         alt="Luxury car"
+        fetchpriority="high"
+        decoding="async"
         onload="this.classList.add('loaded')"
         onerror="this.style.opacity=0"
       >
       <div class="hero-overlay"></div>
       <div class="hero-content">
         <div class="hero-eyebrow">Kenya's Trusted Source For</div>
-        <h1 class="hero-title">Premium<br>Used Cars</h1>
-        <p class="hero-subtitle">Quality Japanese imports, carefully<br>sourced and verified.</p>
+        <h1 class="hero-title">Premium Used Cars</h1>
       </div>
     </div>
 
@@ -1872,8 +1880,8 @@ select.form-input {
             <div class="search-field">
               <div class="sf-label">Budget</div>
               <select class="sf-select">
-                <option>Any Amount</option><option>Under ¥5M</option>
-                <option>¥5M – ¥10M</option><option>¥10M+</option>
+                <option>Any Amount</option><option>Under KSh5M</option>
+                <option>KSh5M – KSh10M</option><option>KSh10M+</option>
               </select>
             </div>
           </div>
@@ -1935,7 +1943,7 @@ select.form-input {
             <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">18k km</div></div>
           </div>
           <div class="car-price-row">
-            <div><div class="price-from">From</div><div class="price-num">¥8.4M <span class="price-ccy">JPY</span></div></div>
+            <div><div class="price-from">From</div><div class="price-num">KSh8.4M <span class="price-ccy">KES</span></div></div>
           </div>
         </div>
       </div>
@@ -1957,7 +1965,7 @@ select.form-input {
             <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">9k km</div></div>
           </div>
           <div class="car-price-row">
-            <div><div class="price-from">From</div><div class="price-num">¥12.9M <span class="price-ccy">JPY</span></div></div>
+            <div><div class="price-from">From</div><div class="price-num">KSh12.9M <span class="price-ccy">KES</span></div></div>
           </div>
         </div>
       </div>
@@ -1979,7 +1987,7 @@ select.form-input {
             <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">6k km</div></div>
           </div>
           <div class="car-price-row">
-            <div><div class="price-from">From</div><div class="price-num">¥18.2M <span class="price-ccy">JPY</span></div></div>
+            <div><div class="price-from">From</div><div class="price-num">KSh18.2M <span class="price-ccy">KES</span></div></div>
           </div>
         </div>
       </div>
@@ -2030,24 +2038,46 @@ select.form-input {
     </div>
     <div class="cats-scroll">
       <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=300&h=200&q=80" alt="Luxury" onerror="this.style.opacity=0">
-        <div class="cat-card-text"><div class="cat-card-name">Luxury</div><div class="cat-card-count">18 units</div></div>
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=420&h=380&q=85" alt="Luxury" onerror="this.style.opacity=0">
+        <div class="cat-card-text">
+          <div class="cat-card-name">Luxury</div>
+          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
       <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=300&h=200&q=80" alt="SUV" onerror="this.style.opacity=0">
-        <div class="cat-card-text"><div class="cat-card-name">SUV & 4x4</div><div class="cat-card-count">31 units</div></div>
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=420&h=380&q=85" alt="SUVs and 4x4s" onerror="this.style.opacity=0">
+        <div class="cat-card-text">
+          <div class="cat-card-name">SUV & 4x4</div>
+          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
-      <div class="cat-card">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=300&h=200&q=80" alt="Sport" onerror="this.style.opacity=0">
-        <div class="cat-card-text"><div class="cat-card-name">Sport</div><div class="cat-card-count">16 units</div></div>
+      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=420&h=380&q=85" alt="Performance" onerror="this.style.opacity=0">
+        <div class="cat-card-text">
+          <div class="cat-card-name">Performance</div>
+          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
-      <div class="cat-card">
-        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=300&h=200&q=80" alt="Performance" onerror="this.style.opacity=0">
-        <div class="cat-card-text"><div class="cat-card-name">Performance</div><div class="cat-card-count">9 units</div></div>
+      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=420&h=380&q=85" alt="Super Cars" onerror="this.style.opacity=0">
+        <div class="cat-card-text">
+          <div class="cat-card-name">Super Cars</div>
+          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
-      <div class="cat-card">
-        <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=300&h=200&q=80" alt="Electric" onerror="this.style.opacity=0">
-        <div class="cat-card-text"><div class="cat-card-name">Electric</div><div class="cat-card-count">9 units</div></div>
+      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=420&h=380&q=85" alt="Special Offers" onerror="this.style.opacity=0">
+        <div class="cat-card-text">
+          <div class="cat-card-name">Special Offers</div>
+          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+      </div>
+      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+        <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=420&h=380&q=85" alt="Daily Drivers" onerror="this.style.opacity=0">
+        <div class="cat-card-text">
+          <div class="cat-card-name">Daily Drivers</div>
+          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
     </div>
   </section>
@@ -2268,7 +2298,7 @@ select.form-input {
           <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">4WD</div></div>
         </div>
         <div class="lc-foot">
-          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥8,400,000</div></div>
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KSh8,400,000</div></div>
           <button class="lc-cta">View Details</button>
         </div>
       </div>
@@ -2294,7 +2324,7 @@ select.form-input {
           <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">AWD</div></div>
         </div>
         <div class="lc-foot">
-          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥12,900,000</div></div>
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KSh12,900,000</div></div>
           <button class="lc-cta">View Details</button>
         </div>
       </div>
@@ -2319,7 +2349,7 @@ select.form-input {
           <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">4WD</div></div>
         </div>
         <div class="lc-foot">
-          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥18,200,000</div></div>
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KSh18,200,000</div></div>
           <button class="lc-cta">View Details</button>
         </div>
       </div>
@@ -2345,7 +2375,7 @@ select.form-input {
           <div class="lc-spec"><div class="lc-spec-label">Fuel</div><div class="lc-spec-val">Hybrid</div></div>
         </div>
         <div class="lc-foot">
-          <div><div class="lc-price-label">Import price from</div><div class="lc-price">¥6,800,000</div></div>
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KSh6,800,000</div></div>
           <button class="lc-cta">View Details</button>
         </div>
       </div>
