@@ -9,7 +9,7 @@
 <title>Tokyo Select — Premium Import Vehicles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
 /* ═══════════════════════════════════
@@ -52,13 +52,33 @@ body {
   color: var(--text-1);
   font-size: 15px;
   line-height: 1.6;
-  max-width: 430px;
+  max-width: 100%;
   margin: 0 auto;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 img { display: block; }
+
+/* ═══════════════════════════════════
+   CONTAINER SYSTEM
+═══════════════════════════════════ */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 24px;
+}
+.container--wide {
+  max-width: 1360px;
+  margin: 0 auto;
+  width: 100%;
+}
+.container--text {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
 
 /* ═══════════════════════════════════
    DEMO TABS
@@ -166,8 +186,8 @@ img { display: block; }
 ═══════════════════════════════════ */
 .hero-wrap { position: relative; }
 .hero {
-  height: calc(100dvh - 381px); /* stats divider + 24px breathing room below it */
-  min-height: 420px;            /* floor for very short screens */
+  height: 480px;     /* fixed banner height — not full-screen */
+  min-height: 380px; /* floor for very short screens */
   position: relative;
   overflow: hidden;
   background: linear-gradient(160deg, #1c2130 0%, #0e1018 50%, #0a0a0a 100%);
@@ -314,8 +334,9 @@ img { display: block; }
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: calc(100% - 28px);
-  margin: 18px 14px 18px;
+  grid-column: 1 / -1; /* spans full width of mobile 2-col grid */
+  width: 100%;
+  margin: 8px 0 18px;
   padding: 14px 20px;
   background: #111110;
   border: none;
@@ -463,6 +484,8 @@ img { display: block; }
   display: flex;
   align-items: center;
 }
+/* Carousel navigation arrows — hidden everywhere; desktop enforcement block enables them */
+.cat-arrow { display: none; }
 
 /* ═══════════════════════════════════
    FEATURED CAR CARDS
@@ -612,7 +635,13 @@ img { display: block; }
   gap: 14px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding-bottom: 2px;
+  padding-top: 8px;
+  margin-top: -8px;
+  padding-bottom: 10px;
+  margin-bottom: -10px;
+  padding-left: 8px;
+  margin-left: -8px;
+  padding-right: 8px;
 }
 .tests-scroll::-webkit-scrollbar { display: none; }
 .test-card {
@@ -622,11 +651,47 @@ img { display: block; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  padding: 22px;
+  padding: 22px 22px 30px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+  cursor: default;
 }
-.test-stars { color: #E8A027; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; }
+.test-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.05);
+}
+.test-card > * {
+  position: relative;
+  transition: transform 0.35s var(--ease-out);
+}
+.test-card:hover > * {
+  transform: translateY(-2px);
+}
+.test-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 36px;
+  left: 14px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 130px;
+  line-height: 1;
+  color: rgba(17,17,16,0.07);
+  pointer-events: none;
+  user-select: none;
+}
+.test-stars { color: #E8B84B; font-size: 13px; letter-spacing: 2px; margin-bottom: 10px; }
+.test-heading {
+  font-family: 'DM Serif Display', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-1);
+  margin-bottom: 8px;
+  transition: color 0.2s;
+}
+.test-card:hover .test-heading { color: #2A6EDB; }
 .test-quote {
   flex: 1;
   font-size: 13px;
@@ -647,8 +712,9 @@ img { display: block; }
   letter-spacing: 0.5px;
   flex-shrink: 0;
 }
-.test-name { font-size: 13px; font-weight: 700; color: var(--text-1); }
-.test-meta { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.test-name { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; color: var(--text-1); transition: color 0.2s; }
+.test-card:hover .test-name { color: #2A6EDB; }
+.test-meta { font-size: 10px; color: var(--text-3); margin-top: 1px; }
 
 /* ═══════════════════════════════════
    ENQUIRY MODAL
@@ -760,9 +826,9 @@ img { display: block; }
   display: flex;
   flex-direction: column;
 }
-.blog-tag { font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 6px; }
-.blog-title { font-size: 14px; font-weight: 600; color: var(--text-1); line-height: 1.4; margin-bottom: 7px; }
-.blog-date { font-size: 11px; color: var(--text-3); }
+.blog-tag { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 6px; }
+.blog-title { font-family: 'DM Serif Display', serif; font-size: 14px; font-weight: 400; color: var(--text-1); line-height: 1.4; margin-bottom: 0; }
+.blog-body { padding: 14px 16px 20px; display: flex; flex-direction: column; }
 
 /* ═══════════════════════════════════
    FOOTER
@@ -843,6 +909,74 @@ img { display: block; }
   font-size: 10px;
   color: rgba(255,255,255,0.28);
   line-height: 1.7;
+}
+.footer-cols { /* mobile: children stack naturally */ }
+.footer-scroll-up {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  width: 100%;
+  padding: 36px 0 36px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  user-select: none;
+}
+.footer-scroll-up:hover { opacity: 1; }
+.footer-scroll-up span {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+}
+.footer-subscribe-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+.footer-subscribe-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-subscribe-input {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 7px;
+  padding: 11px 14px;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.footer-subscribe-input::placeholder { color: rgba(255,255,255,0.3); }
+.footer-subscribe-input:focus { border-color: rgba(255,255,255,0.3); }
+.footer-subscribe-btn {
+  background: #ffffff;
+  color: #141414;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  letter-spacing: 0.3px;
+}
+.footer-subscribe-btn:hover { opacity: 0.85; }
+/* Logo now lives at the bottom of footer-lower */
+.footer-logo-wrap {
+  padding: 28px 0 28px;
+  margin-top: 0;
+  margin-bottom: 0;
+  justify-content: center;
 }
 
 /* ═══════════════════════════════════
@@ -1145,18 +1279,24 @@ img { display: block; }
   cursor: pointer;
   transition: box-shadow 0.22s var(--ease-out), transform 0.18s;
   box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
 }
 .listing-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
 .listing-card:active { transform: scale(0.99) translateY(0); }
 .lc-img {
-  height: 200px;
+  aspect-ratio: 16 / 9;
+  height: auto;
   background: var(--surface-2);
   position: relative;
   overflow: hidden;
 }
 .lc-img img {
+  position: absolute;
+  inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center 40%;
   transition: transform 0.4s var(--ease-out);
 }
 .listing-card:hover .lc-img img { transform: scale(1.04); }
@@ -1184,7 +1324,7 @@ img { display: block; }
   box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
 .lc-save:hover { color: #e0245e; transform: scale(1.1); }
-.lc-body { padding: 18px; }
+.lc-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
 .lc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
 .lc-make { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; margin-bottom: 2px; }
 .lc-model { font-family: 'DM Serif Display', serif; font-size: 22px; line-height: 1.1; letter-spacing: -0.3px; }
@@ -1199,7 +1339,7 @@ img { display: block; }
 .lc-spec:last-child { border-right: none; }
 .lc-spec-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.6px; font-weight: 600; }
 .lc-spec-val { font-size: 13px; font-weight: 700; color: var(--text-1); margin-top: 3px; }
-.lc-foot { display: flex; align-items: center; justify-content: space-between; }
+.lc-foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
 .lc-price-label { font-size: 10px; color: var(--text-3); margin-bottom: 2px; font-weight: 500; }
 .lc-price { font-family: 'DM Serif Display', serif; font-size: 22px; letter-spacing: -0.3px; }
 .lc-cta {
@@ -1373,7 +1513,7 @@ img { display: block; }
 .contact-eyebrow { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1.8px; font-weight: 700; margin-bottom: 12px; }
 .contact-title { font-family: 'DM Serif Display', serif; font-size: 34px; line-height: 1.08; letter-spacing: -0.6px; margin-bottom: 10px; }
 .contact-title em { font-style: italic; }
-.contact-sub { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 32px; max-width: 300px; }
+.contact-sub { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 32px; }
 .form-group { margin-bottom: 14px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .form-label { display: block; font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 7px; }
@@ -1546,7 +1686,7 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   .demo-tab { padding: 11px 20px; font-size: 12px; }
   .nav { padding: 0 32px; height: 60px; }
   .nav-logo .logo-text { font-size: 17px; }
-  .hero { min-height: 520px; }
+  .hero { height: 520px; min-height: 460px; }
   .hero-content { padding: 0 44px; }
   .hero-title { font-size: 66px; letter-spacing: -1px; }
   .hero-subtitle { font-size: 16px; max-width: 400px; }
@@ -1568,7 +1708,7 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   .listing-title { font-size: 36px; }
   .listing-search { padding: 24px 32px 0; }
   .listing-grid { padding: 0 32px 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .lc-img { height: 220px; }
+  /* lc-img uses aspect-ratio: 16/9 — no height override needed */
   .lc-model { font-size: 22px; }
   .lc-price { font-size: 22px; }
   .detail-gallery { height: 390px; }
@@ -1576,7 +1716,6 @@ textarea.form-input { min-height: 120px; resize: none; line-height: 1.6; }
   .detail-model { font-size: 36px; }
   .contact-page { padding: 44px 40px 140px; }
   .contact-title { font-size: 44px; }
-  .contact-sub { max-width: 420px; }
   .footer { padding: 64px 44px 0; }
   .menu-item { font-size: 34px; }
   .filter-panel { left: 0; right: 0; border-radius: var(--r-2xl) var(--r-2xl) 0 0; }
@@ -1791,6 +1930,992 @@ select.form-input {
   background: var(--text-3);
 }
 
+/* ═══════════════════════════════════
+   RESPONSIVE DESKTOP (≥768px)
+═══════════════════════════════════ */
+
+/* ── Tablet: 768px–1023px ── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Hero adjustments */
+  .hero {
+    height: 540px;
+    min-height: 480px;
+  }
+  .hero-title {
+    font-size: 72px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+  }
+
+  /* Search panel */
+  .search-float {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -80px;
+  }
+  .search-fields {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Stats */
+  .stats-strip {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .stat-val {
+    font-size: 32px;
+  }
+  .stat-label {
+    font-size: 13px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 56px clamp(24px, 5vw, 80px);
+  }
+
+  /* Categories - Grid layout */
+  .cats-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    overflow-x: visible;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .cat-card {
+    width: auto;
+    height: 200px;
+  }
+
+  /* Car cards - Grid layout */
+  .cars-scroll {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    overflow-x: visible;
+  }
+  .car-card {
+    width: auto;
+  }
+
+  /* Testimonials */
+  .tests-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    overflow-x: visible;
+  }
+  .test-card {
+    width: auto;
+  }
+
+  /* Blog cards */
+  .blog-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    overflow-x: visible;
+  }
+  .blog-card {
+    width: auto;
+  }
+
+  /* Inventory page - 2 column grid */
+  .listing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 24px 28px;
+  }
+}
+
+/* ── Desktop: 1024px–1199px ── */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  /* Nav improvements */
+  .nav {
+    padding: 0 clamp(24px, 4vw, 60px);
+    height: 64px;
+  }
+  .nav-logo .logo-text {
+    font-size: 17px;
+  }
+
+  /* Hero */
+  .hero {
+    height: 560px;
+    min-height: 500px;
+  }
+  .hero-title {
+    font-size: 72px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+  }
+  .hero-subtitle {
+    max-width: 400px;
+  }
+
+  /* Search panel */
+  .search-float {
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -80px;
+  }
+  .search-fields {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Stats */
+  .stats-strip {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .stat-val {
+    font-size: 32px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 56px clamp(24px, 5vw, 80px);
+  }
+
+  /* Categories */
+  .cats-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    overflow-x: visible;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .cat-card {
+    width: auto;
+    height: 200px;
+  }
+
+  /* Car cards */
+  .cars-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    overflow-x: visible;
+  }
+  .car-card {
+    width: auto;
+  }
+
+  /* Testimonials */
+  .tests-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    overflow-x: visible;
+  }
+  .test-card {
+    width: auto;
+  }
+
+  /* Blog cards */
+  .blog-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    overflow-x: visible;
+  }
+  .blog-card {
+    width: auto;
+  }
+
+  /* Inventory page - 2 to 3 column grid */
+  .listing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 0 32px 32px;
+  }
+
+  /* Detail page - 2 column layout */
+  .detail-gallery {
+    max-width: 60%;
+  }
+}
+
+/* ── Desktop Large: 1200px–1439px ── */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  /* Body remains fluid */
+  body {
+    max-width: 100%;
+  }
+
+  /* Nav */
+  .nav {
+    padding: 0 clamp(24px, 5vw, 80px);
+    height: 64px;
+  }
+  .nav-logo .logo-text {
+    font-size: 18px;
+  }
+
+  /* Hero */
+  .hero {
+    height: 600px;
+    min-height: 520px;
+  }
+  .hero-title {
+    font-size: 88px;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+    max-width: 450px;
+  }
+
+  /* Search panel */
+  .search-float {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -100px;
+  }
+  .search-fields {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  /* Stats */
+  .stats-strip {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .stat-val {
+    font-size: 36px;
+  }
+  .stat-label {
+    font-size: 13px;
+  }
+
+  /* Sections with better spacing */
+  .section {
+    padding: 72px clamp(40px, 6vw, 120px);
+  }
+
+  /* Dark band */
+  .dark-band {
+    padding: 64px clamp(40px, 6vw, 120px) 72px;
+  }
+  .dark-band-title {
+    font-size: 48px;
+  }
+
+  /* Categories - 6 columns */
+  .cats-scroll {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    overflow-x: visible;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .cat-card {
+    width: auto;
+    height: 200px;
+  }
+
+  /* Car cards - 4 columns */
+  .cars-scroll {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    overflow-x: visible;
+  }
+  .car-card {
+    width: auto;
+  }
+
+  /* Testimonials */
+  .tests-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow-x: visible;
+  }
+  .test-card {
+    width: auto;
+  }
+
+  /* Blog cards */
+  .blog-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow-x: visible;
+  }
+  .blog-card {
+    width: auto;
+  }
+
+  /* Inventory page */
+  .listing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 0 40px 40px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Contact page */
+  .contact-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 44px clamp(24px, 5vw, 80px) 140px;
+  }
+  .contact-title {
+    font-size: 52px;
+  }
+
+  /* Import Process page */
+  .ip-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 44px 40px 100px;
+  }
+}
+
+/* ── Desktop XL: 1440px–2559px ── */
+@media (min-width: 1440px) and (max-width: 2559px) {
+  body {
+    max-width: 100%;
+  }
+
+  /* Nav */
+  .nav {
+    padding: 0 clamp(40px, 6vw, 100px);
+    height: 68px;
+  }
+  .nav-logo .logo-text {
+    font-size: 18px;
+  }
+
+  /* Hero */
+  .hero {
+    height: 640px;
+    min-height: 560px;
+  }
+  .hero-title {
+    font-size: 96px;
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+  }
+  .hero-subtitle {
+    font-size: 17px;
+    max-width: 500px;
+  }
+
+  /* Search panel */
+  .search-float {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -110px;
+  }
+  .search-fields {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  /* Stats */
+  .stats-strip {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px clamp(40px, 7vw, 140px) 56px;
+  }
+  .stat-val {
+    font-size: 40px;
+  }
+  .stat-label {
+    font-size: 14px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 80px clamp(50px, 7vw, 160px);
+  }
+
+  /* Dark band */
+  .dark-band {
+    padding: 72px clamp(50px, 7vw, 160px) 80px;
+  }
+  .dark-band-title {
+    font-size: 52px;
+  }
+
+  /* Categories - 6 columns */
+  .cats-scroll {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    overflow-x: visible;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .cat-card {
+    width: auto;
+    height: 220px;
+  }
+
+  /* Car cards - 4 columns */
+  .cars-scroll {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    overflow-x: visible;
+  }
+  .car-card {
+    width: auto;
+  }
+  .car-card-img {
+    height: 160px;
+  }
+
+  /* Testimonials */
+  .tests-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    overflow-x: visible;
+  }
+  .test-card {
+    width: auto;
+  }
+
+  /* Blog cards */
+  .blog-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    overflow-x: visible;
+  }
+  .blog-card {
+    width: auto;
+  }
+
+  /* Inventory page */
+  .listing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    padding: 0 80px 80px;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Contact page */
+  .contact-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 56px clamp(40px, 6vw, 120px) 160px;
+  }
+  .contact-title {
+    font-size: 58px;
+  }
+
+  /* Import Process page */
+  .ip-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 56px 80px 140px;
+  }
+}
+
+/* ── 4K / Ultra-wide: 2560px+ ── */
+@media (min-width: 2560px) {
+  body {
+    max-width: 100%;
+  }
+
+  /* Nav */
+  .nav {
+    padding: 0 clamp(100px, 8vw, 200px);
+    height: 72px;
+  }
+  .nav-logo .logo-text {
+    font-size: 20px;
+  }
+
+  /* Hero */
+  .hero {
+    height: 700px;
+    min-height: 620px;
+  }
+  .hero-title {
+    font-size: 120px;
+  }
+  .hero-eyebrow {
+    font-size: 14px;
+  }
+  .hero-subtitle {
+    font-size: 18px;
+    max-width: 600px;
+  }
+
+  /* Search panel */
+  .search-float {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -130px;
+  }
+  .search-fields {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 28px 20px 0;
+  }
+
+  /* Stats */
+  .stats-strip {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 48px clamp(100px, 8vw, 200px) 64px;
+  }
+  .stat-val {
+    font-size: 48px;
+  }
+  .stat-label {
+    font-size: 15px;
+  }
+
+  /* Sections */
+  .section {
+    padding: 100px clamp(80px, 8vw, 200px);
+  }
+  .section-title {
+    font-size: 44px;
+  }
+
+  /* Dark band */
+  .dark-band {
+    padding: 88px clamp(80px, 8vw, 200px) 100px;
+  }
+  .dark-band-title {
+    font-size: 60px;
+  }
+
+  /* Categories */
+  .cats-scroll {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 24px;
+    overflow-x: visible;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .cat-card {
+    width: auto;
+    height: 240px;
+  }
+
+  /* Car cards */
+  .cars-scroll {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    overflow-x: visible;
+  }
+  .car-card {
+    width: auto;
+  }
+  .car-card-img {
+    height: 180px;
+  }
+
+  /* Testimonials */
+  .tests-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    overflow-x: visible;
+  }
+  .test-card {
+    width: auto;
+  }
+
+  /* Blog cards */
+  .blog-scroll {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    overflow-x: visible;
+  }
+  .blog-card {
+    width: auto;
+  }
+
+  /* Inventory page */
+  .listing-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding: 0 120px 120px;
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* lc-img uses aspect-ratio: 16/9 — no height override needed at 4K */
+
+  /* Contact page */
+  .contact-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px clamp(80px, 8vw, 160px) 180px;
+  }
+  .contact-title {
+    font-size: 66px;
+  }
+
+  /* Import Process page */
+  .ip-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 64px 120px 160px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 100px clamp(80px, 8vw, 200px) 0;
+  }
+}
+
+/* ═══════════════════════════════════
+   CONTAINER ENFORCEMENT (≥ 1024px)
+   Overrides clamp() padding with the
+   calc-container pattern so all content
+   is hard-capped at max-width, centered,
+   with clean margins on ultra-wide/4K.
+═══════════════════════════════════ */
+@media (min-width: 1024px) {
+
+  /* Fix 834px body constraint carried over from 768px rule */
+  body { max-width: 100%; }
+
+  /* ── NAV
+     Inner content aligns to 1200px column ── */
+  .nav {
+    padding: 0 max(32px, calc((100vw - 1200px) / 2 + 28px));
+  }
+
+  /* ── HERO
+     Image stays full-bleed; text content centred ── */
+  .hero-content {
+    left: 50%;
+    right: auto;
+    width: 100%;
+    max-width: 1200px;
+    transform: translateX(-50%) translateY(calc(-50% + 14px));
+    padding: 0 clamp(32px, 4vw, 80px);
+  }
+
+  /* Search bar: full container width, straddles hero bottom edge
+     margin-top = tabs (~43px) + fields-pad-top (20px) + row-1 (~64px) + half-gap (6px) ≈ 140px
+     max-width: none — clears the 680–900px max-width set by intermediate breakpoints; without
+     this the calc() padding crushes the card to zero at wide viewports. */
+  .search-float {
+    max-width: none;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: -140px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left:  max(32px, calc((100vw - 1200px) / 2));
+    padding-right: max(32px, calc((100vw - 1200px) / 2));
+  }
+  /* Prevent the card from ever collapsing visually */
+  .search-card {
+    min-height: 120px;
+  }
+  /* Desktop: 3-col grid — row 1: Make | Model | Year
+                            row 2: Budget | Search (spans cols 2–3) */
+  .search-fields {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 20px 16px;
+    gap: 12px;
+  }
+  .search-btn {
+    grid-column: 2 / 4;
+    margin: 0;
+    align-self: stretch;
+    width: 100%;
+  }
+
+  /* ── STATS STRIP
+     Full-width element: calc padding creates the centred 1200px content area.
+     max-width: none — clears 1200–1600px max-width set by intermediate breakpoints;
+     without it the calc() padding crushes stat items at wide viewports. ── */
+  .stats-strip {
+    max-width: none;
+    padding-left:  max(32px, calc((100vw - 1200px) / 2));
+    padding-right: max(32px, calc((100vw - 1200px) / 2));
+    box-sizing: border-box;
+  }
+
+  /* ── SECTIONS
+     Border spans full width; content constrained to 1200px ── */
+  .section {
+    padding-top:    64px;
+    padding-bottom: 64px;
+    padding-left:  max(32px, calc((100vw - 1200px) / 2));
+    padding-right: max(32px, calc((100vw - 1200px) / 2));
+  }
+
+  /* ── BROWSE BY CATEGORY — 4-up carousel with directional arrows
+     Intermediate breakpoints convert .cats-scroll to CSS Grid; restore flex+scroll here.
+     Card width = (container − 3 gaps) ÷ 4, aspect-ratio 5:4 (wider than tall). ── */
+  .cats-carousel {
+    position: relative;
+  }
+  .cats-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    gap: 16px;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+  .cats-scroll::-webkit-scrollbar { display: none; }
+  .cats-scroll > .cat-card {
+    flex-shrink: 0;
+    width: calc((100% - 3 * 16px) / 4); /* exactly 4 visible at a time */
+    aspect-ratio: 5 / 4;                /* slightly wider than tall */
+    height: auto;
+    scroll-snap-align: start;
+  }
+
+  /* Arrow button base — only shown on desktop */
+  .cat-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.11);
+    cursor: pointer;
+    z-index: 3;
+    padding: 0;
+    color: var(--text-1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s, box-shadow 0.15s;
+  }
+  /* Centred on the left/right edge of the scroll container */
+  .cat-arrow-prev { left: 0;  transform: translate(-50%, -50%); }
+  .cat-arrow-next { right: 0; transform: translate(50%,  -50%); }
+  .cat-arrow:hover {
+    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.18);
+    background: #ffffff;
+  }
+  /* Reveal on section hover — only in the direction where more cards exist */
+  .cats-carousel.can-scroll-right:hover .cat-arrow-next,
+  .cats-carousel.can-scroll-left:hover  .cat-arrow-prev {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── RECENTLY LISTED — horizontal scroll row
+     Intermediate breakpoints convert .cars-scroll to CSS Grid with overflow-x: visible,
+     which breaks the scroll entirely. Override back to flex here so cards stay fixed-width
+     and overflow is scrollable within the section's container boundary. ── */
+  .cars-scroll {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
+    gap: 16px;
+    scrollbar-width: none;
+    padding-bottom: 8px; /* shadow clearance */
+    padding-right: 4px;  /* last-card shadow clearance */
+  }
+  .cars-scroll::-webkit-scrollbar { display: none; }
+  .cars-scroll > .car-card {
+    flex-shrink: 0;
+    width: 300px;
+  }
+
+  /* Section headings no longer need truncation at desktop */
+  .section-title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+  .section-head { overflow: visible; }
+
+  /* ── DARK BAND
+     Full-width black background; text at 1100px ── */
+  .dark-band {
+    padding-top:    80px;
+    padding-bottom: 88px;
+    padding-left:  max(40px, calc((100vw - 1100px) / 2));
+    padding-right: max(40px, calc((100vw - 1100px) / 2));
+  }
+
+  /* ── LISTING PAGE (INVENTORY)
+     These elements use max-width + margin:auto for centering,
+     so padding must be flat (not calc-based) to avoid
+     double-centering on ultra-wide screens. ── */
+  .listing-header {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 36px;
+    box-sizing: border-box;
+  }
+  .listing-search {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+  .listing-grid {
+    max-width: 1360px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 48px;
+    box-sizing: border-box;
+  }
+
+  /* ── DETAIL PAGE ── */
+  .detail-gallery {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .gallery-thumbs {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+  .detail-body {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+
+  /* ── CONTACT PAGE ── */
+  .contact-page {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+    box-sizing: border-box;
+  }
+
+  /* ── IMPORT PROCESS PAGE ── */
+  .ip-page {
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+    box-sizing: border-box;
+  }
+
+  /* ── SELL YOUR CAR PAGE ── */
+  .syc-page {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+
+  /* ── LEGAL PAGES ── */
+  .legal-page {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+    box-sizing: border-box;
+  }
+
+  /* ── FOOTER
+     Dark background spans full width; inner columns at 1200px ── */
+  .footer {
+    padding-left:  max(32px, calc((100vw - 1200px) / 2));
+    padding-right: max(32px, calc((100vw - 1200px) / 2));
+    box-sizing: border-box;
+    padding-top: 64px;
+  }
+  .footer-scroll-up {
+    padding: 44px 0 44px;
+    width: 100%;
+  }
+  .footer-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 240px;
+    gap: 40px;
+    align-items: start;
+    margin-bottom: 40px;
+  }
+  .footer-section { margin-bottom: 0; }
+  .footer-subscribe-form { flex-direction: row; gap: 8px; }
+  .footer-subscribe-input { flex: 1; }
+  .footer-subscribe-btn { flex-shrink: 0; }
+  .footer-logo-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 36px 0 36px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1885,11 +3010,11 @@ select.form-input {
               </select>
             </div>
           </div>
+          <button class="search-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9 9L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Search
+          </button>
         </div>
-        <button class="search-btn">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M9 9L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          Search
-        </button>
       </div>
     </div>
 
@@ -1992,6 +3117,50 @@ select.form-input {
         </div>
       </div>
 
+      <div class="car-card">
+        <div class="car-card-img">
+          <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=500&h=300&q=80" alt="Porsche Cayenne" onerror="this.style.opacity=0">
+          <div class="car-card-save">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="car-card-body">
+          <div class="car-make">Porsche</div>
+          <div class="car-model">Cayenne GTS</div>
+          <div class="car-specs">
+            <div class="cs"><div class="cs-label">Year</div><div class="cs-val">2022</div></div>
+            <div class="cs"><div class="cs-label">Engine</div><div class="cs-val">4.0L V8T</div></div>
+            <div class="cs"><div class="cs-label">Drive</div><div class="cs-val">AWD</div></div>
+            <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">11k km</div></div>
+          </div>
+          <div class="car-price-row">
+            <div><div class="price-from">From</div><div class="price-num">KES 22.5M</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="car-card">
+        <div class="car-card-img">
+          <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=500&h=300&q=80" alt="BMW X5" onerror="this.style.opacity=0">
+          <div class="car-card-save">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="car-card-body">
+          <div class="car-make">BMW</div>
+          <div class="car-model">X5 M Sport</div>
+          <div class="car-specs">
+            <div class="cs"><div class="cs-label">Year</div><div class="cs-val">2023</div></div>
+            <div class="cs"><div class="cs-label">Engine</div><div class="cs-val">3.0L I6T</div></div>
+            <div class="cs"><div class="cs-label">Drive</div><div class="cs-val">xDrive</div></div>
+            <div class="cs"><div class="cs-label">Mileage</div><div class="cs-val">7k km</div></div>
+          </div>
+          <div class="car-price-row">
+            <div><div class="price-from">From</div><div class="price-num">KES 16.8M</div></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -2036,49 +3205,59 @@ select.form-input {
     <div class="section-head">
       <h2 class="section-title">Browse by Category</h2>
     </div>
-    <div class="cats-scroll">
-      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=420&h=380&q=85" alt="Luxury" onerror="this.style.opacity=0">
-        <div class="cat-card-text">
-          <div class="cat-card-name">Luxury</div>
-          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="cats-carousel">
+      <!-- Prev arrow — shown only when can-scroll-left class is present on parent + hover -->
+      <button class="cat-arrow cat-arrow-prev" aria-label="Previous categories">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="cats-scroll">
+        <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+          <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=420&h=380&q=85" alt="Luxury" onerror="this.style.opacity=0">
+          <div class="cat-card-text">
+            <div class="cat-card-name">Luxury</div>
+            <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+          <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=420&h=380&q=85" alt="SUVs and 4x4s" onerror="this.style.opacity=0">
+          <div class="cat-card-text">
+            <div class="cat-card-name">SUV & 4x4</div>
+            <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+          <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=420&h=380&q=85" alt="Performance" onerror="this.style.opacity=0">
+          <div class="cat-card-text">
+            <div class="cat-card-name">Performance</div>
+            <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+          <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=420&h=380&q=85" alt="Super Cars" onerror="this.style.opacity=0">
+          <div class="cat-card-text">
+            <div class="cat-card-name">Super Cars</div>
+            <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=420&h=380&q=85" alt="Special Offers" onerror="this.style.opacity=0">
+          <div class="cat-card-text">
+            <div class="cat-card-name">Special Offers</div>
+            <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+        <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
+          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=420&h=380&q=85" alt="Daily Drivers" onerror="this.style.opacity=0">
+          <div class="cat-card-text">
+            <div class="cat-card-name">Daily Drivers</div>
+            <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
         </div>
       </div>
-      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=420&h=380&q=85" alt="SUVs and 4x4s" onerror="this.style.opacity=0">
-        <div class="cat-card-text">
-          <div class="cat-card-name">SUV & 4x4</div>
-          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </div>
-      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=420&h=380&q=85" alt="Performance" onerror="this.style.opacity=0">
-        <div class="cat-card-text">
-          <div class="cat-card-name">Performance</div>
-          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </div>
-      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=420&h=380&q=85" alt="Super Cars" onerror="this.style.opacity=0">
-        <div class="cat-card-text">
-          <div class="cat-card-name">Super Cars</div>
-          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </div>
-      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=420&h=380&q=85" alt="Special Offers" onerror="this.style.opacity=0">
-        <div class="cat-card-text">
-          <div class="cat-card-name">Special Offers</div>
-          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </div>
-      <div class="cat-card" onclick="showPage('listing', document.querySelector('.demo-tab:nth-child(2)'))">
-        <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=420&h=380&q=85" alt="Daily Drivers" onerror="this.style.opacity=0">
-        <div class="cat-card-text">
-          <div class="cat-card-name">Daily Drivers</div>
-          <div class="cat-card-arrow"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 11L11 2M11 2H4.5M11 2V8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </div>
+      <!-- Next arrow — shown only when can-scroll-right class is present on parent + hover -->
+      <button class="cat-arrow cat-arrow-next" aria-label="Next categories">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </section>
 
@@ -2093,6 +3272,7 @@ select.form-input {
     <div class="tests-scroll">
       <div class="test-card">
         <div class="test-stars">★★★★★</div>
+        <div class="test-heading">Dealers You Can Trust</div>
         <p class="test-quote">"The process was entirely stress-free. Tokyo Select handled everything — shipping, documentation, delivery."</p>
         <div class="test-author">
           <div class="test-avatar">JR</div>
@@ -2104,6 +3284,7 @@ select.form-input {
       </div>
       <div class="test-card">
         <div class="test-stars">★★★★★</div>
+        <div class="test-heading">10/10 Service</div>
         <p class="test-quote">"I appreciated the transparency. No hidden costs, no pressure. Just a clear quote and a very good car."</p>
         <div class="test-author">
           <div class="test-avatar">AK</div>
@@ -2115,6 +3296,7 @@ select.form-input {
       </div>
       <div class="test-card">
         <div class="test-stars">★★★★★</div>
+        <div class="test-heading">Very Efficient</div>
         <p class="test-quote">"Six weeks from quote to delivery. The vehicle was exactly as described. I've already referred three friends."</p>
         <div class="test-author">
           <div class="test-avatar">DM</div>
@@ -2130,7 +3312,7 @@ select.form-input {
   <!-- Blog -->
   <section class="section">
     <div class="section-head">
-      <h2 class="section-title">Import Insights</h2>
+      <h2 class="section-title">Learn More</h2>
       <span class="section-link">All posts →</span>
     </div>
     <div class="blog-scroll">
@@ -2141,7 +3323,6 @@ select.form-input {
         <div class="blog-body">
           <div class="blog-tag">Import Guide</div>
           <div class="blog-title">What to know before importing a Japanese vehicle</div>
-          <div class="blog-date">Feb 14, 2026</div>
         </div>
       </div>
       <div class="blog-card">
@@ -2151,7 +3332,6 @@ select.form-input {
         <div class="blog-body">
           <div class="blog-tag">Inspection</div>
           <div class="blog-title">How auction grade ratings work in Japan</div>
-          <div class="blog-date">Jan 30, 2026</div>
         </div>
       </div>
       <div class="blog-card">
@@ -2161,7 +3341,6 @@ select.form-input {
         <div class="blog-body">
           <div class="blog-tag">Logistics</div>
           <div class="blog-title">RoRo vs Container shipping — which is right for you?</div>
-          <div class="blog-date">Jan 12, 2026</div>
         </div>
       </div>
     </div>
@@ -2169,12 +3348,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-
-    <!-- Logo centred -->
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
 
     <!-- Company -->
     <div class="footer-section">
@@ -2219,7 +3397,16 @@ select.form-input {
       </div>
     </div>
 
-    <!-- Lower footer -->
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -2229,6 +3416,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
 
   </footer>
@@ -2281,7 +3472,7 @@ select.form-input {
     <!-- Card 1 -->
     <div class="listing-card" onclick="showPage('detail', document.querySelector('.demo-tab:nth-child(3)'))">
       <div class="lc-img">
-        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&h=400&q=80" alt="Land Cruiser 300">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&h=450&q=80" alt="Land Cruiser 300">
         <div class="lc-badge">New Arrival</div>
         <div class="lc-save">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
@@ -2307,7 +3498,7 @@ select.form-input {
     <!-- Card 2 -->
     <div class="listing-card">
       <div class="lc-img">
-        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=800&h=400&q=80" alt="GT-R" onerror="this.style.opacity=0">
+        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=800&h=450&q=80" alt="GT-R">
         <div class="lc-badge gold">Featured</div>
         <div class="lc-save">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
@@ -2333,7 +3524,7 @@ select.form-input {
     <!-- Card 3 -->
     <div class="listing-card">
       <div class="lc-img">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&h=400&q=80" alt="Lexus LX" onerror="this.style.opacity=0">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&h=450&q=80" alt="Lexus LX">
         <div class="lc-save">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
         </div>
@@ -2358,7 +3549,7 @@ select.form-input {
     <!-- Card 4 -->
     <div class="listing-card">
       <div class="lc-img">
-        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&h=400&q=80" alt="Mazda CX-60" onerror="this.style.opacity=0">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&h=450&q=80" alt="Mazda CX-60">
         <div class="lc-badge">Hybrid</div>
         <div class="lc-save">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
@@ -2376,6 +3567,211 @@ select.form-input {
         </div>
         <div class="lc-foot">
           <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 6,800,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&h=450&q=80" alt="Toyota Prado">
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Toyota</div><div class="lc-model">Prado TX</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2022</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.8L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">22k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">4WD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 7,200,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&h=450&q=80" alt="Mercedes-Benz GLE">
+        <div class="lc-badge gold">Featured</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Mercedes-Benz</div><div class="lc-model">GLE 450 AMG</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2022</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">3.0L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">14k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">AWD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 15,400,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=800&h=450&q=80" alt="Toyota Alphard">
+        <div class="lc-badge">New Arrival</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Toyota</div><div class="lc-model">Alphard Executive</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2023</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.5L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">8k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Fuel</div><div class="lc-spec-val">Hybrid</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 9,800,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 8 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&h=450&q=80" alt="BMW 3 Series">
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">BMW</div><div class="lc-model">330i M Sport</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2021</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.0L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">31k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">RWD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 8,900,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=800&h=450&q=80" alt="Porsche Cayenne">
+        <div class="lc-badge gold">Featured</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Porsche</div><div class="lc-model">Cayenne S</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2022</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.9L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">11k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">AWD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 22,500,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 10 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&h=450&q=80" alt="Subaru Outback">
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Subaru</div><div class="lc-model">Outback AWD</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2023</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.5L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">17k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Drive</div><div class="lc-spec-val">AWD</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 5,600,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 11 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=800&h=450&q=80&crop=right" alt="Honda CR-V Hybrid">
+        <div class="lc-badge">Hybrid</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Honda</div><div class="lc-model">CR-V Hybrid</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2023</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.0L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">12k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Fuel</div><div class="lc-spec-val">Hybrid</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 6,200,000</div></div>
+          <button class="lc-cta">View Details</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 12 -->
+    <div class="listing-card">
+      <div class="lc-img">
+        <img src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=800&h=450&q=80&crop=entropy" alt="Mitsubishi Outlander">
+        <div class="lc-badge">Hybrid</div>
+        <div class="lc-save">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 12.25S1.75 9.1 1.75 5.25A3.25 3.25 0 017 2.68a3.25 3.25 0 015.25 2.57C12.25 9.1 7 12.25 7 12.25z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-top">
+          <div><div class="lc-make">Mitsubishi</div><div class="lc-model">Outlander PHEV</div></div>
+        </div>
+        <div class="lc-specs">
+          <div class="lc-spec"><div class="lc-spec-label">Year</div><div class="lc-spec-val">2023</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Engine</div><div class="lc-spec-val">2.4L</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Mileage</div><div class="lc-spec-val">9k km</div></div>
+          <div class="lc-spec"><div class="lc-spec-label">Fuel</div><div class="lc-spec-val">Hybrid</div></div>
+        </div>
+        <div class="lc-foot">
+          <div><div class="lc-price-label">Import price from</div><div class="lc-price">KES 5,900,000</div></div>
           <button class="lc-cta">View Details</button>
         </div>
       </div>
@@ -2400,12 +3796,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
-
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -2441,6 +3836,16 @@ select.form-input {
         </a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
 
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
@@ -2451,6 +3856,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
 
   </footer>
@@ -2723,7 +4132,7 @@ select.form-input {
 
   <div class="contact-page">
     <div class="contact-eyebrow">Get in touch</div>
-    <h1 class="contact-title">Request your<br><em>import quote</em></h1>
+    <h1 class="contact-title">Request your import quote</h1>
     <p class="contact-sub">Tell us about the vehicle you're after. We'll send a detailed landed cost within one business day.</p>
 
     <div class="form-row">
@@ -2924,10 +4333,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -2953,6 +4363,16 @@ select.form-input {
         <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -2962,6 +4382,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
   </footer>
 
@@ -3074,10 +4498,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -3103,6 +4528,16 @@ select.form-input {
         <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -3112,6 +4547,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
   </footer>
 
@@ -3212,10 +4651,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -3241,6 +4681,16 @@ select.form-input {
         <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -3250,6 +4700,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
   </footer>
 
@@ -3387,10 +4841,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -3416,6 +4871,16 @@ select.form-input {
         <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -3425,6 +4890,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
   </footer>
 
@@ -3569,10 +5038,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -3598,6 +5068,16 @@ select.form-input {
         <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -3607,6 +5087,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
   </footer>
 
@@ -3738,10 +5222,11 @@ select.form-input {
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-logo-wrap">
-      <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
-      <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+    <div class="footer-scroll-up" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      <span>Scroll Up</span>
     </div>
+    <div class="footer-cols">
     <div class="footer-section">
       <div class="footer-section-title">Company</div>
       <div class="footer-section-links">
@@ -3767,6 +5252,16 @@ select.form-input {
         <a class="footer-social-icon" href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
       </div>
     </div>
+    <!-- Subscribe -->
+    <div class="footer-section footer-subscribe">
+      <div class="footer-section-title">Stay Updated</div>
+      <p class="footer-subscribe-desc">New arrivals and exclusive listings — direct to your inbox.</p>
+      <form class="footer-subscribe-form" onsubmit="return false">
+        <input class="footer-subscribe-input" type="email" placeholder="Your email address">
+        <button class="footer-subscribe-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    </div><!-- /footer-cols -->
     <div class="footer-lower">
       <div class="footer-copy-text">Copyright Tokyo Select Limited &copy; 2026. All Rights Reserved. Designed by Simply Vivid Media</div>
       <div class="footer-legal-row">
@@ -3776,6 +5271,10 @@ select.form-input {
         <a href="#" onclick="event.preventDefault(); showPage('cookie', null)">Cookie Policy</a>
       </div>
       <p class="footer-disclaimer">Prices shown are indicative and may vary. They may not relate to a single, specific vehicle and can change based on factors including the listing date, prevailing exchange rates, and applicable import duties, taxes, and charges as assessed by the Kenya Revenue Authority (KRA). Prices are provided for guidance only and do not constitute a binding offer.</p>
+      <div class="footer-logo-wrap">
+        <svg class="logo-mark" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="5.5" y="0" width="3" height="14" rx="0.6" fill="currentColor"/><rect x="0" y="5.5" width="14" height="3" rx="0.6" fill="currentColor"/></svg>
+        <span class="logo-text"><b>TOKYO</b><span>&nbsp;SELECT</span></span>
+      </div>
     </div>
   </footer>
 
@@ -3987,6 +5486,40 @@ select.form-input {
       document.querySelectorAll('.gdot').forEach((d,i) => d.classList.toggle('active', i === idx));
     });
   });
+
+  // ── Category carousel — directional arrow controls ──────────────────────
+  function initCatCarousel() {
+    const carousel = document.querySelector('.cats-carousel');
+    if (!carousel) return;
+    const scroll  = carousel.querySelector('.cats-scroll');
+    const btnPrev = carousel.querySelector('.cat-arrow-prev');
+    const btnNext = carousel.querySelector('.cat-arrow-next');
+    if (!scroll || !btnPrev || !btnNext) return;
+
+    function updateArrows() {
+      const atStart = scroll.scrollLeft <= 2;
+      const atEnd   = scroll.scrollLeft >= scroll.scrollWidth - scroll.clientWidth - 2;
+      carousel.classList.toggle('can-scroll-left',  !atStart);
+      carousel.classList.toggle('can-scroll-right', !atEnd);
+    }
+
+    scroll.addEventListener('scroll', updateArrows, { passive: true });
+    updateArrows(); // set initial state
+
+    btnPrev.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const cardEl = scroll.querySelector('.cat-card');
+      const step   = cardEl ? cardEl.offsetWidth + 16 : scroll.clientWidth * 0.26;
+      scroll.scrollBy({ left: -step, behavior: 'smooth' });
+    });
+    btnNext.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const cardEl = scroll.querySelector('.cat-card');
+      const step   = cardEl ? cardEl.offsetWidth + 16 : scroll.clientWidth * 0.26;
+      scroll.scrollBy({ left: step, behavior: 'smooth' });
+    });
+  }
+  initCatCarousel();
 
   // Save button toggle (heart icon)
   document.querySelectorAll('.car-card-save, .lc-save, .dg-save').forEach(btn => {
